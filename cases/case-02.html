@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Case 02 · Windows Endpoint Compromise</title>
+<meta name="description" content="Case study: reconstructing a Windows endpoint compromise from event logs, registry and file system artefacts.">
+<!-- Remove this noindex line once the case is written up -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23c8322b'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='32' fill='%23fff' text-anchor='middle'%3EAB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/case.css">
+</head>
+<body>
+
+<!--
+  CASE STUDY TEMPLATE
+  To add a case: copy this file to case-02.html, replace every section's content,
+  and link it from the matching card in ../index.html.
+  Keep the section order: readers (and hiring managers) expect
+  Summary → Scenario → Evidence → Method → Timeline → Findings → Lessons.
+-->
+
+<header class="case-header">
+  <div class="container">
+    <nav class="case-nav" aria-label="Breadcrumb">
+      <a href="../index.html#cases">← Akshay Bhandari</a>
+      <span>Case 02</span>
+    </nav>
+
+    <h1 class="case-title">Reconstructing a Windows endpoint compromise</h1>
+    <p class="case-summary">A single Windows host raised an alert, and no memory capture was available. Working only from event logs, the registry and file system artefacts, the job is to rebuild exactly what the attacker did, step by step.</p>
+    <p class="template-note">Sample write-up: this shows the format. Hosts, times, hashes and indicators are illustrative, not real findings. Replace them once the case is worked.</p>
+
+    <dl class="case-facts">
+      <div><dt>Source</dt><dd>Hack The Box Sherlock</dd></div>
+      <div><dt>Focus</dt><dd>Windows artefacts</dd></div>
+      <div><dt>Systems</dt><dd>One Windows 10 workstation</dd></div>
+      <div><dt>Evidence</dt><dd>Event logs, registry hives, $MFT, Prefetch</dd></div>
+      <div><dt>Tools</dt><dd>EZ Tools, Hayabusa, Timeline Explorer</dd></div>
+      <div><dt>Time spent</dt><dd>~1 day (example)</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="container case-body">
+
+  <!-- 1. SCENARIO -->
+  <section class="case-section" aria-labelledby="s-scenario">
+    <h2 id="s-scenario">Scenario</h2>
+    <div class="prose">
+      <p>The EDR flagged a suspicious PowerShell command on a finance workstation. The host was isolated and a triage collection of its key artefacts was taken. There was no memory image, so every answer has to come from what Windows wrote to disk.</p>
+      <p><strong>Questions to answer:</strong></p>
+      <ul>
+        <li>How did the attacker first get code running on the host?</li>
+        <li>What did they run, and in what order?</li>
+        <li>How did they try to keep access?</li>
+        <li>Did they cover their tracks?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. EVIDENCE -->
+  <section class="case-section" aria-labelledby="s-evidence">
+    <h2 id="s-evidence">Evidence</h2>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>What it shows</th><th>SHA-256</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">*.evtx</td><td>Security, System, PowerShell and Sysmon logs</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+            <tr><td class="mono">SOFTWARE, SYSTEM, NTUSER.DAT</td><td>Registry: autoruns, services, user activity</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+            <tr><td class="mono">$MFT</td><td>Every file created, changed or deleted</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+            <tr><td class="mono">Prefetch\*.pf</td><td>Programs that ran, and when</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The triage collection was hashed on receipt and worked from a copy.</p>
+    </div>
+  </section>
+
+  <!-- 3. METHOD -->
+  <section class="case-section" aria-labelledby="s-method">
+    <h2 id="s-method">Method</h2>
+    <div class="prose">
+      <h3>1. Triage the event logs for known attacker behaviour</h3>
+      <pre class="cmd"><code><span class="p">$ </span>hayabusa.exe csv-timeline -d C:\evidence\Logs -o hayabusa.csv
+<span class="c"># Sigma-based rules highlight encoded PowerShell, new services and log clearing</span></code></pre>
+      <p>Hayabusa gives a fast first pass, ranking hits by severity so the critical events stand out.</p>
+
+      <h3>2. Decode what PowerShell actually ran</h3>
+      <pre class="cmd"><code><span class="p">$ </span>EvtxECmd.exe -f "Microsoft-Windows-PowerShell%4Operational.evtx" --csv C:\out
+<span class="c"># Event 4104 (script block logging) records the decoded script</span></code></pre>
+      <p>Script block logging shows the real command behind the Base64 blob: a download cradle fetching a second-stage payload.</p>
+
+      <h3>3. Prove what executed, and when</h3>
+      <pre class="cmd"><code><span class="p">$ </span>PECmd.exe -d C:\evidence\Prefetch --csv C:\out
+<span class="p">$ </span>MFTECmd.exe -f C:\evidence\$MFT --csv C:\out</code></pre>
+      <p>Prefetch confirms the payload ran and how many times; the $MFT shows when it was written to disk.</p>
+
+      <h3>4. Find persistence and clean-up</h3>
+      <pre class="cmd"><code><span class="p">$ </span>RECmd.exe -d C:\evidence\Registry --bn BatchExamples\Kroll_Batch.reb --csv C:\out
+<span class="c"># Then open everything in Timeline Explorer and sort by time</span></code></pre>
+      <p>A scheduled task and a Run key both point at the payload. A cleared Security log (event 1102) shows the attacker tried to hide.</p>
+    </div>
+  </section>
+
+  <!-- 4. TIMELINE -->
+  <section class="case-section" aria-labelledby="s-timeline">
+    <h2 id="s-timeline">Timeline</h2>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Time (UTC)</th><th>Source</th><th>Event (sample)</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">08:42:10</td><td>NTUSER, LNK</td><td>User opens an invoice attachment from email</td></tr>
+            <tr><td class="mono">08:42:14</td><td>PowerShell 4104</td><td>Encoded PowerShell downloads a second-stage file</td></tr>
+            <tr><td class="mono">08:42:19</td><td>$MFT</td><td>Payload written to the user's AppData folder</td></tr>
+            <tr><td class="mono">08:42:21</td><td>Prefetch</td><td>Payload executes for the first time</td></tr>
+            <tr><td class="mono">08:44:05</td><td>Security 4698</td><td>Scheduled task created to rerun the payload at logon</td></tr>
+            <tr><td class="mono">08:44:30</td><td>NTUSER Run key</td><td>Second persistence entry added</td></tr>
+            <tr><td class="mono">08:51:57</td><td>Security 1102</td><td>Security log cleared</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FINDINGS -->
+  <section class="case-section" aria-labelledby="s-findings">
+    <h2 id="s-findings">Findings</h2>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Finding (sample)</th><th>Severity</th><th>Evidence</th></tr></thead>
+          <tbody>
+            <tr><td>Initial access through a malicious email attachment</td><td><span class="sev sev-high">High</span></td><td>LNK files, NTUSER</td></tr>
+            <tr><td>Encoded PowerShell used to download and run a payload</td><td><span class="sev sev-high">High</span></td><td>PowerShell 4104, Prefetch</td></tr>
+            <tr><td>Two persistence mechanisms: scheduled task and Run key</td><td><span class="sev sev-med">Medium</span></td><td>Security 4698, registry</td></tr>
+            <tr><td>Anti-forensics: Security log cleared</td><td><span class="sev sev-med">Medium</span></td><td>Security 1102</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Indicators of compromise</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Value (sample)</th></tr></thead>
+          <tbody>
+            <tr><td>Payload path</td><td class="mono">C:\Users\&lt;user&gt;\AppData\Roaming\sample-svc.exe</td></tr>
+            <tr><td>Scheduled task</td><td class="mono">\SampleUpdateTask</td></tr>
+            <tr><td>Download URL</td><td class="mono">hxxp://203.0.113.80/stage2.bin</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LESSONS -->
+  <section class="case-section" aria-labelledby="s-lessons">
+    <h2 id="s-lessons">Lessons</h2>
+    <div class="prose">
+      <ul>
+        <li>Turn on PowerShell script block logging everywhere; it decoded the attacker's command when nothing else could.</li>
+        <li>Forward logs off the host in real time, so clearing them locally doesn't erase the evidence.</li>
+        <li>Prefetch and the $MFT can prove execution and timing even without a memory image.</li>
+        <li>Block Office and email clients from launching PowerShell.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="container case-next">
+  <a href="case-01.html">← Case 01</a>
+  <a href="case-03.html">Case 03 →</a>
+</footer>
+
+</body>
+</html>

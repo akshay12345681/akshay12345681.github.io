@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Case 01 · Stolen Szechuan Sauce</title>
+<meta name="description" content="Case study: a full breach investigation of the DFIR Madness Stolen Szechuan Sauce case.">
+<!-- Remove this noindex line once the case is written up -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23c8322b'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='32' fill='%23fff' text-anchor='middle'%3EAB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/case.css">
+</head>
+<body>
+
+<!--
+  CASE STUDY TEMPLATE
+  To add a case: copy this file to case-02.html, replace every section's content,
+  and link it from the matching card in ../index.html.
+  Keep the section order: readers (and hiring managers) expect
+  Summary → Scenario → Evidence → Method → Timeline → Findings → Lessons.
+-->
+
+<header class="case-header">
+  <div class="container">
+    <nav class="case-nav" aria-label="Breadcrumb">
+      <a href="../index.html#cases">← Akshay Bhandari</a>
+      <span>Case 01</span>
+    </nav>
+
+    <h1 class="case-title">The Stolen Szechuan Sauce</h1>
+    <p class="case-summary">A secret recipe has leaked. With disk images, memory dumps and network traffic from a domain controller and a workstation, the job is to find how the attacker got in, where they moved, and what they took.</p>
+    <p class="template-note">Sample write-up: this shows the format. Hosts, times, hashes and indicators are illustrative, not real findings. Replace them once the case is worked.</p>
+
+    <dl class="case-facts">
+      <div><dt>Source</dt><dd>DFIR Madness</dd></div>
+      <div><dt>Level</dt><dd>Advanced</dd></div>
+      <div><dt>Systems</dt><dd>Domain controller, Windows workstation</dd></div>
+      <div><dt>Evidence</dt><dd>Disk images, memory dumps, PCAP</dd></div>
+      <div><dt>Tools</dt><dd>Autopsy, Volatility 3, Plaso, Wireshark</dd></div>
+      <div><dt>Time spent</dt><dd>~3 days (example)</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="container case-body">
+
+  <!-- 1. SCENARIO: what was reported, and what question you set out to answer -->
+  <section class="case-section" aria-labelledby="s-scenario">
+    <h2 id="s-scenario">Scenario</h2>
+    <div class="prose">
+      <p>A small company's most valuable secret, its Szechuan sauce recipe, has turned up somewhere it shouldn't. The domain controller and one employee workstation were imaged, memory was captured from both, and a packet capture covers the period of the suspected breach.</p>
+      <p><strong>Questions to answer:</strong></p>
+      <ul>
+        <li>How did the attacker get in, and when?</li>
+        <li>What did they run, and how did they keep access?</li>
+        <li>Did they move from the server to the workstation?</li>
+        <li>What data was taken, and how did it leave the network?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. EVIDENCE: list every artefact with its hash, so the work is verifiable -->
+  <section class="case-section" aria-labelledby="s-evidence">
+    <h2 id="s-evidence">Evidence</h2>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Source</th><th>SHA-256</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">DC01-disk.E01</td><td>Domain controller, disk image</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+            <tr><td class="mono">DC01-memory.raw</td><td>Domain controller, memory</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+            <tr><td class="mono">WKS01-disk.E01</td><td>Workstation, disk image</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+            <tr><td class="mono">WKS01-memory.raw</td><td>Workstation, memory</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+            <tr><td class="mono">case.pcap</td><td>Network capture</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Every hash is recorded on receipt and checked again before analysis, so the chain of custody holds.</p>
+    </div>
+  </section>
+
+  <!-- 3. METHOD: the steps and commands, so someone could repeat the work -->
+  <section class="case-section" aria-labelledby="s-method">
+    <h2 id="s-method">Method</h2>
+    <div class="prose">
+      <h3>1. Find the way in: remote logons on the server</h3>
+      <pre class="cmd"><code><span class="p">$ </span>EvtxECmd.exe -d C:\evidence\DC01\Logs --csv C:\out --csvf dc01_events.csv
+<span class="c"># Filter for 4625 (failed) then 4624 logon type 10 (RDP) from the same external IP</span></code></pre>
+      <p>A burst of failed logons followed by a successful RDP session from one external address points to password guessing against an exposed server.</p>
+
+      <h3>2. Identify what the attacker ran</h3>
+      <pre class="cmd"><code><span class="p">$ </span>vol -f DC01-memory.raw windows.pstree
+<span class="p">$ </span>vol -f DC01-memory.raw windows.netscan
+<span class="p">$ </span>vol -f DC01-memory.raw windows.malfind</code></pre>
+      <p>Look for a process with an unusual name or path, a parent that doesn't fit, and an outbound connection that matches the attacker's address.</p>
+
+      <h3>3. Check persistence</h3>
+      <pre class="cmd"><code><span class="p">$ </span>RECmd.exe -d C:\evidence\DC01\Registry --bn BatchExamples\Kroll_Batch.reb --csv C:\out
+<span class="c"># Review services, Run keys and scheduled tasks created after the first malicious logon</span></code></pre>
+      <p>A new service or Run key pointing at the dropped file explains how access survived a reboot.</p>
+
+      <h3>4. Follow lateral movement and build one timeline</h3>
+      <pre class="cmd"><code><span class="p">$ </span>log2timeline.py --storage-file case.plaso WKS01-disk.E01
+<span class="p">$ </span>psort.py -o l2tcsv -w timeline.csv case.plaso "date > '2020-09-18 00:00:00'"</code></pre>
+      <p>Logons from the server to the workstation, followed by file access on the workstation, show where the attacker went next.</p>
+
+      <h3>5. Confirm what left the network</h3>
+      <pre class="cmd"><code><span class="c"># Wireshark display filters</span>
+ip.addr == 203.0.113.45 &amp;&amp; tcp.len &gt; 0
+http.request.method == "POST" || ftp-data</code></pre>
+      <p>Matching file names and sizes in the capture against file activity on disk proves what was taken, not just what was touched.</p>
+    </div>
+  </section>
+
+  <!-- 4. TIMELINE: the story in order. Use UTC. -->
+  <section class="case-section" aria-labelledby="s-timeline">
+    <h2 id="s-timeline">Timeline</h2>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Time (UTC)</th><th>Host</th><th>Source</th><th>Event (sample)</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">02:19:26</td><td>DC01</td><td>Security log</td><td>Hundreds of failed RDP logons from 203.0.113.45</td></tr>
+            <tr><td class="mono">02:21:47</td><td>DC01</td><td>Security log</td><td>Successful RDP logon as Administrator from the same address</td></tr>
+            <tr><td class="mono">02:24:06</td><td>DC01</td><td>Memory, MFT</td><td>Unknown executable dropped to a system folder and run</td></tr>
+            <tr><td class="mono">02:27:49</td><td>DC01</td><td>Registry</td><td>New auto-start service created for the dropped file</td></tr>
+            <tr><td class="mono">02:35:54</td><td>WKS01</td><td>Security log</td><td>RDP logon from DC01 to the workstation</td></tr>
+            <tr><td class="mono">02:39:32</td><td>WKS01</td><td>MFT, LNK files</td><td>Recipe file opened and copied into a zip archive</td></tr>
+            <tr><td class="mono">02:46:23</td><td>Network</td><td>PCAP</td><td>Archive sent out to 203.0.113.45</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FINDINGS: what you concluded, how sure you are, and the indicators -->
+  <section class="case-section" aria-labelledby="s-findings">
+    <h2 id="s-findings">Findings</h2>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Finding (sample)</th><th>Severity</th><th>Evidence</th></tr></thead>
+          <tbody>
+            <tr><td>Initial access by RDP password guessing against an internet-exposed domain controller</td><td><span class="sev sev-high">High</span></td><td>Security log, PCAP</td></tr>
+            <tr><td>Malware with an outbound command-and-control connection, kept alive by a new service</td><td><span class="sev sev-high">High</span></td><td>Memory, registry</td></tr>
+            <tr><td>Lateral movement from the server to the workstation over RDP</td><td><span class="sev sev-med">Medium</span></td><td>Security logs, timeline</td></tr>
+            <tr><td>Recipe file archived and sent out of the network</td><td><span class="sev sev-high">High</span></td><td>MFT, LNK files, PCAP</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Indicators of compromise</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Value (sample)</th></tr></thead>
+          <tbody>
+            <tr><td>Attacker IP address</td><td class="mono">203.0.113.45</td></tr>
+            <tr><td>Malicious file</td><td class="mono">C:\Windows\System32\sample-updater.exe</td></tr>
+            <tr><td>Persistence</td><td class="mono">Service: sample-updater (auto start)</td></tr>
+            <tr><td>Exfiltrated archive</td><td class="mono">recipe.zip</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LESSONS: what you'd recommend, and what you'd do differently -->
+  <section class="case-section" aria-labelledby="s-lessons">
+    <h2 id="s-lessons">Lessons</h2>
+    <div class="prose">
+      <ul>
+        <li>Never expose RDP on a domain controller to the internet; put remote access behind a VPN with multi-factor authentication.</li>
+        <li>Alert on bursts of failed logons followed by a success from the same source.</li>
+        <li>Monitor for new services and Run keys on servers; they rarely change legitimately.</li>
+        <li>Correlating memory, disk and network evidence turned "something leaked" into a precise account of what left, when and how.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="container case-next">
+  <a href="../index.html#cases">← All cases</a>
+  <a href="case-02.html">Case 02 →</a>
+</footer>
+
+</body>
+</html>

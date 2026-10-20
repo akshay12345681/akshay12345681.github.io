@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Case 03 · Network Intrusion</title>
+<meta name="description" content="Case study: tracing an intrusion from first connection to data leaving the network, using packet captures and Zeek logs.">
+<!-- Remove this noindex line once the case is written up -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23c8322b'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='32' fill='%23fff' text-anchor='middle'%3EAB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/case.css">
+</head>
+<body>
+
+<!--
+  CASE STUDY TEMPLATE
+  To add a case: copy this file to case-02.html, replace every section's content,
+  and link it from the matching card in ../index.html.
+  Keep the section order: readers (and hiring managers) expect
+  Summary → Scenario → Evidence → Method → Timeline → Findings → Lessons.
+-->
+
+<header class="case-header">
+  <div class="container">
+    <nav class="case-nav" aria-label="Breadcrumb">
+      <a href="../index.html#cases">← Akshay Bhandari</a>
+      <span>Case 03</span>
+    </nav>
+
+    <h1 class="case-title">Tracing an intrusion through network traffic</h1>
+    <p class="case-summary">Only the network saw everything. From a single packet capture, the job is to follow the attacker from their first connection to the moment data left the network, without touching any endpoint.</p>
+    <p class="template-note">Sample write-up: this shows the format. Hosts, times, hashes and indicators are illustrative, not real findings. Replace them once the case is worked.</p>
+
+    <dl class="case-facts">
+      <div><dt>Source</dt><dd>Hack The Box Sherlock</dd></div>
+      <div><dt>Focus</dt><dd>Network forensics</dd></div>
+      <div><dt>Systems</dt><dd>Web server and internal hosts</dd></div>
+      <div><dt>Evidence</dt><dd>One PCAP, Zeek logs</dd></div>
+      <div><dt>Tools</dt><dd>Wireshark, Zeek, NetworkMiner</dd></div>
+      <div><dt>Time spent</dt><dd>~1 day (example)</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="container case-body">
+
+  <!-- 1. SCENARIO -->
+  <section class="case-section" aria-labelledby="s-scenario">
+    <h2 id="s-scenario">Scenario</h2>
+    <div class="prose">
+      <p>A company noticed unusual outbound traffic from its public web server late at night. The firewall team captured traffic on the server's network segment. No endpoint evidence was collected, so the packet capture is the whole story.</p>
+      <p><strong>Questions to answer:</strong></p>
+      <ul>
+        <li>How did the attacker get into the web server?</li>
+        <li>Is there a command-and-control channel, and how does it behave?</li>
+        <li>Did the attacker reach other internal hosts?</li>
+        <li>What data left, and where did it go?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. EVIDENCE -->
+  <section class="case-section" aria-labelledby="s-evidence">
+    <h2 id="s-evidence">Evidence</h2>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>What it shows</th><th>SHA-256</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">capture.pcap</td><td>Full packets on the web server segment</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+            <tr><td class="mono">conn.log, http.log, dns.log</td><td>Zeek summaries generated from the capture</td><td class="hash">sample-hash-replace-after-acquisition</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The Zeek logs were generated from a verified copy of the capture, so every finding traces back to the original packets.</p>
+    </div>
+  </section>
+
+  <!-- 3. METHOD -->
+  <section class="case-section" aria-labelledby="s-method">
+    <h2 id="s-method">Method</h2>
+    <div class="prose">
+      <h3>1. Turn packets into searchable logs</h3>
+      <pre class="cmd"><code><span class="p">$ </span>zeek -C -r capture.pcap
+<span class="p">$ </span>cat conn.log | zeek-cut id.orig_h id.resp_h id.resp_p duration orig_bytes resp_bytes | sort -k6 -nr | head</code></pre>
+      <p>Sorting connections by bytes sent quickly shows which conversations moved the most data out.</p>
+
+      <h3>2. Find the way in</h3>
+      <pre class="cmd"><code><span class="c"># Wireshark display filter</span>
+http.request &amp;&amp; ip.dst == 10.0.0.15
+<span class="c"># Look for scanning, then a request that uploads or executes something</span></code></pre>
+      <p>A burst of directory scanning is followed by a file upload to a vulnerable form, then requests to the uploaded web shell.</p>
+
+      <h3>3. Spot the command-and-control beacon</h3>
+      <pre class="cmd"><code><span class="p">$ </span>cat conn.log | zeek-cut ts id.resp_h id.resp_p | grep 203.0.113.99
+<span class="c"># Regular intervals with small, similar sizes = beaconing</span></code></pre>
+      <p>The server calls out to the same address every 60 seconds with near-identical packet sizes, which is the signature of an automated beacon.</p>
+
+      <h3>4. Follow lateral movement and recover what left</h3>
+      <pre class="cmd"><code><span class="c"># Wireshark display filters</span>
+smb2 || rdp || tcp.port == 5985
+dns.qry.name contains "sample-exfil"
+<span class="c"># NetworkMiner: extract transferred files and compare hashes</span></code></pre>
+      <p>SMB connections from the web server to an internal file server, then long, encoded DNS queries, show data being smuggled out a few bytes at a time.</p>
+    </div>
+  </section>
+
+  <!-- 4. TIMELINE -->
+  <section class="case-section" aria-labelledby="s-timeline">
+    <h2 id="s-timeline">Timeline</h2>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Time (UTC)</th><th>Source</th><th>Event (sample)</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">23:02:11</td><td>http.log</td><td>Directory scanning of the web server from 203.0.113.99</td></tr>
+            <tr><td class="mono">23:09:47</td><td>http.log</td><td>Web shell uploaded through a vulnerable upload form</td></tr>
+            <tr><td class="mono">23:10:02</td><td>PCAP</td><td>First commands sent to the web shell</td></tr>
+            <tr><td class="mono">23:12:30</td><td>conn.log</td><td>Server starts beaconing out every 60 seconds</td></tr>
+            <tr><td class="mono">23:31:15</td><td>PCAP (SMB)</td><td>Web server connects to the internal file server</td></tr>
+            <tr><td class="mono">23:48:40</td><td>dns.log</td><td>Long encoded DNS queries begin: data leaving over DNS</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FINDINGS -->
+  <section class="case-section" aria-labelledby="s-findings">
+    <h2 id="s-findings">Findings</h2>
+    <div class="prose">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Finding (sample)</th><th>Severity</th><th>Evidence</th></tr></thead>
+          <tbody>
+            <tr><td>Web shell uploaded through a vulnerable form on the public server</td><td><span class="sev sev-high">High</span></td><td>http.log, PCAP</td></tr>
+            <tr><td>Automated command-and-control beacon every 60 seconds</td><td><span class="sev sev-high">High</span></td><td>conn.log</td></tr>
+            <tr><td>Lateral movement to an internal file server over SMB</td><td><span class="sev sev-med">Medium</span></td><td>PCAP</td></tr>
+            <tr><td>Data exfiltrated by DNS tunnelling</td><td><span class="sev sev-high">High</span></td><td>dns.log</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Indicators of compromise</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Type</th><th>Value (sample)</th></tr></thead>
+          <tbody>
+            <tr><td>Attacker IP address</td><td class="mono">203.0.113.99</td></tr>
+            <tr><td>Web shell path</td><td class="mono">/uploads/sample-shell.php</td></tr>
+            <tr><td>Exfiltration domain</td><td class="mono">*.sample-exfil.example</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LESSONS -->
+  <section class="case-section" aria-labelledby="s-lessons">
+    <h2 id="s-lessons">Lessons</h2>
+    <div class="prose">
+      <ul>
+        <li>Validate and restrict file uploads, and never let uploaded files execute.</li>
+        <li>Separate public servers from internal file shares so one compromise can't reach both.</li>
+        <li>Watch for beaconing patterns and unusually long DNS queries; both are easy to alert on.</li>
+        <li>Network evidence alone can tell the full story when endpoints aren't available.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="container case-next">
+  <a href="case-02.html">← Case 02</a>
+  <a href="../index.html#cases">All cases →</a>
+</footer>
+
+</body>
+</html>

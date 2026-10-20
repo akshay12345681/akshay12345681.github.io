@@ -1,0 +1,241 @@
+/* Hero: corner notes, big name, and the lanyard badge */
+
+.stage {
+  position: relative;
+  height: var(--stage-h);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ---------- Corner notes ---------- */
+.corners {
+  position: absolute; inset: 0 0 auto 0; z-index: 6;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-3);
+  padding-block: var(--space-3) 0;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+  pointer-events: none;
+}
+.corner { max-width: 340px; pointer-events: auto; display: flex; flex-direction: column; gap: 12px; }
+.corner-right { max-width: 280px; text-align: right; align-items: flex-end; }
+.corner-label {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.corner-label.has-dot::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+}
+.corner-text {
+  font-family: var(--font-display);
+  font-size: var(--text-corner);
+  line-height: 1.08;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.corner-text em { color: var(--accent); }
+
+/* Rotating lines: all items share one grid cell, so the height never jumps */
+.rotator { display: grid; }
+.corner-right .rotator { justify-items: end; }
+.rotator > * {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(4px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1), filter .7s ease;
+  pointer-events: none;
+}
+.rotator > .is-active { opacity: 1; transform: none; filter: none; pointer-events: auto; }
+.rotator > .is-leaving { opacity: 0; transform: translateY(-12px); filter: blur(4px); }
+/* Before the script runs (or without it), show the first line */
+.rotator:not(.is-ready) > :first-child { opacity: 1; transform: none; filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .rotator > * { transition: opacity .3s linear; transform: none; filter: none; }
+}
+.corner-link, .corner-nav a {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.corner-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; align-self: flex-start; padding-bottom: 2px; margin-top: 2px; }
+.corner-link:hover { color: var(--fg); }
+.corner-nav { display: flex; gap: 18px; margin-top: 2px; }
+.corner-nav a { text-decoration: none; color: var(--fg); }
+.corner-nav a:hover { color: var(--accent); }
+
+/* ---------- Big name ---------- */
+.hero-name {
+  position: absolute; z-index: 1;
+  left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  bottom: calc(var(--text-hero) * -0.06);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-hero);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.hero-name em { font-style: italic; color: var(--accent); }
+
+/* ---------- Lanyard ---------- */
+.rope, .rope-shadow, .clasp { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.rope { z-index: 3; }
+/* The straps' shadow on the wall: same offset direction as the badge's shadow */
+.rope-shadow {
+  z-index: 2;
+  transform: translate(9px, 16px);
+  filter: blur(3px);
+  opacity: var(--rope-shadow, .16);
+}
+.rope-shadow path { fill: none; stroke: #000; stroke-linecap: round; stroke-linejoin: round; }
+.clasp { z-index: 5; }
+.rope path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.strand-back { stroke: var(--strap); opacity: .78; }
+.strand-front { stroke: var(--strap); }
+.strand-shine { stroke: var(--strap-hi); }
+.crimp { fill: var(--strap); }
+
+/* Soft shadow the badge casts on the wall behind it */
+.badge-shadow {
+  position: absolute; top: 0; left: 0; z-index: 2;
+  width: var(--badge-w); aspect-ratio: 200 / 290;
+  border-radius: var(--radius);
+  background: var(--shadow);
+  filter: blur(16px);
+  opacity: .55;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ---------- Badge ---------- */
+.badge {
+  position: absolute; top: 0; left: 0; z-index: 4;
+  width: var(--badge-w); aspect-ratio: 200 / 290;
+  container-type: inline-size;
+  cursor: grab;
+  touch-action: none;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+.badge.is-grabbed { cursor: grabbing; }
+.badge:focus-visible { outline: none; }
+.badge:focus-visible .badge-sleeve { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* The clear plastic holder */
+.badge-sleeve {
+  position: absolute; inset: 0;
+  border-radius: var(--radius);
+  background: var(--sleeve);
+  border: 1px solid var(--sleeve-edge);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7);
+  backdrop-filter: blur(2px);
+  overflow: hidden;
+}
+/* The punched slot the clip goes through */
+.badge-slot {
+  position: absolute; left: 50%; top: 3.5cqw;
+  width: 26cqw; height: 3.6cqw;
+  transform: translateX(-50%);
+  border-radius: 99px;
+  background: var(--bg);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .25);
+}
+
+/* The printed card inside the holder */
+.badge-card {
+  position: absolute; inset: 11cqw 5cqw 5cqw;
+  border-radius: 1.6cqw;
+  background: var(--card);
+  color: var(--card-fg);
+  box-shadow: 0 0 0 1px var(--card-line);
+  padding: 6cqw 6.5cqw 6cqw;
+  display: flex; flex-direction: column;
+}
+.badge-head {
+  display: flex; justify-content: space-between; gap: 4cqw;
+  font-family: var(--font-mono);
+  font-size: 3.7cqw; line-height: 1.35; letter-spacing: .02em;
+  color: var(--card-muted);
+}
+.badge-head span:last-child { text-align: right; }
+.badge-name {
+  margin-top: 13cqw;
+  font-family: var(--font-display);
+  font-size: 17cqw; line-height: .88; letter-spacing: -.01em;
+}
+.badge-name em { font-style: italic; color: var(--card-accent); }
+.badge-role {
+  margin-top: 5cqw;
+  font-size: 4.6cqw; line-height: 1.35;
+}
+.badge-meta {
+  margin-top: auto;
+  display: grid; grid-template-columns: auto 1fr; gap: 1cqw 4cqw;
+  font-family: var(--font-mono); font-size: 3.4cqw; letter-spacing: .02em;
+  padding-top: 4cqw; border-top: 1px solid var(--card-line);
+}
+.badge-meta dt { color: var(--card-muted); }
+.badge-meta dd { text-align: right; font-variant-numeric: tabular-nums; }
+.badge-chips { display: flex; gap: 1.6cqw; margin-top: 4.5cqw; }
+.badge-chips i { display: block; height: 3cqw; border-radius: 99px; }
+.badge-chips i:nth-child(1) { width: 14cqw; background: var(--card-fg); }
+.badge-chips i:nth-child(2) { width: 9cqw; background: var(--card-accent); }
+.badge-chips i:nth-child(3) { width: 9cqw; background: #d6476a; }
+.badge-chips i:nth-child(4) { width: 6cqw; background: #e8b931; }
+
+/* Light: a sheen that slides across the plastic as the badge turns, and a shade on the far side */
+.badge-sheen, .badge-shade {
+  position: absolute; inset: 0; border-radius: var(--radius); pointer-events: none;
+}
+.badge-sheen {
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .55) 48%, transparent 60%);
+  transform: translateX(calc(var(--tw, 0) * -160%));
+  mix-blend-mode: soft-light;
+}
+.badge-shade {
+  background: linear-gradient(90deg, rgba(0, 0, 0, var(--shade-l, 0)), rgba(0, 0, 0, var(--shade-r, 0)));
+}
+
+.hint {
+  position: absolute; z-index: 6;
+  font-family: var(--font-mono); font-size: var(--text-2xs);
+  letter-spacing: .04em; color: var(--muted);
+  pointer-events: none;
+  transition: opacity .5s;
+}
+.hint.is-gone { opacity: 0; }
+
+@media (max-width: 720px) {
+  .corners { flex-direction: column; gap: var(--space-2); }
+  .corner, .corner-right { max-width: 50%; gap: 8px; }
+  .corner-right { text-align: left; align-items: flex-start; }
+  .corner-label, .corner-link, .corner-nav a { font-size: 11px; }
+  .corner-nav { gap: 12px; }
+  .hint { display: none; }
+}
+
+/* ---------- Title line above the big name ---------- */
+.hero-role {
+  position: absolute; z-index: 1;
+  left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  bottom: calc(var(--text-hero) * 0.98);
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-body); font-weight: 500;
+  font-size: clamp(15px, 1.45vw, 19px);
+  letter-spacing: .01em;
+  color: var(--fg);
+}
+.hero-role::before { content: ""; width: 28px; height: 2px; background: var(--accent); }
+.hero-role span { color: var(--accent); }
+@media (max-width: 720px) {
+  .hero-role { font-size: 13px; gap: 8px; max-width: calc(100% - 2 * var(--gutter)); }
+  .hero-role::before { width: 16px; }
+}

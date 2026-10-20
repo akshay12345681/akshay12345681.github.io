@@ -1,0 +1,77 @@
+/* ==========================================================
+   Design tokens
+   Change the look of the whole site from this one file.
+   ========================================================== */
+
+:root {
+  /* ---------- Type ---------- */
+  --font-display: "Instrument Serif", "Iowan Old Style", "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --text-2xs: 11px;                        /* mono labels, chips */
+  --text-xs: 12px;                         /* footer, small meta */
+  --text-sm: 13.5px;                       /* hero corner notes */
+  --text-base: 16px;                       /* body copy */
+  --text-lg: 19px;                         /* lead paragraphs */
+  --text-xl: clamp(28px, 3.2vw, 40px);     /* section statements */
+  --text-2xl: clamp(40px, 6vw, 80px);      /* contact headline */
+  --text-hero: clamp(52px, 10.5vw, 164px); /* the big name in the hero */
+  --text-corner: clamp(22px, 2.3vw, 30px); /* hero corner sentences */
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-body: 1.6;
+
+  /* ---------- Space & shape ---------- */
+  --gutter: 28px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 64px;
+  --space-6: 104px;
+  --maxw: 1200px;
+  --radius: 12px;
+
+  /* ---------- Hero / badge (read by js/lanyard.js) ---------- */
+  --stage-h: 700px;
+  --badge-w: 200px;
+  --anchor-x: 0.56;   /* where the lanyard hangs from, 0 = left edge, 1 = right edge */
+
+  /* ---------- Metal parts (same in every palette) ---------- */
+  --metal-hi: #f2f3f7;
+  --metal-mid: #a9aab7;
+  --metal-lo: #6c6d7c;
+
+  /* ---------- Palette: Evidence tape (light, used in light and dark mode) ---------- */
+  color-scheme: light;
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --fg: #171615;
+  --muted: #6f6b66;
+  --line: #e6e3dd;
+  --accent: #c8322b;        /* evidence-bag red */
+  --strap: #c8322b;         /* red lanyard, like evidence tape */
+  --strap-hi: #e2645d;
+  --card: #ffffff;
+  --card-fg: #171615;
+  --card-muted: #8a857e;
+  --card-line: #ece9e3;
+  --card-accent: #c8322b;
+  --sleeve: rgba(255, 255, 255, 0.62);
+  --sleeve-edge: rgba(23, 22, 21, 0.12);
+  --shadow: rgba(23, 22, 21, 0.24);
+  --rope-shadow: 0.16;      /* strength of the straps' shadow on the wall */
+  --code-bg: #1b1a19;
+}
+
+@media (max-width: 720px) {
+  :root {
+    --gutter: 16px;
+    --stage-h: 580px;
+    --badge-w: 168px;
+    --anchor-x: 0.72;
+    --space-6: 72px;
+  }
+}

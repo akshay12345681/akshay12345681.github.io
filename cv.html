@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Akshay Bhandari · CV</title>
+<meta name="description" content="CV of Akshay Bhandari, Director, Digital Forensics & Incident Response.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23c8322b'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='32' fill='%23fff' text-anchor='middle'%3EAB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<style>
+  /* CV page: one column, readable, prints cleanly */
+  .cv { max-width: 860px; margin: 0 auto; padding-block: var(--space-4) var(--space-6); }
+  .cv-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: .1em; text-transform: uppercase; }
+  .cv-nav a { text-decoration: none; color: var(--muted); }
+  .cv-nav a:hover { color: var(--fg); }
+  .cv-head { margin-top: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--line); }
+  .cv-name { font-family: var(--font-display); font-weight: 400; font-size: clamp(44px, 7vw, 76px); line-height: 1; letter-spacing: -.01em; }
+  .cv-name em { color: var(--accent); }
+  .cv-title { margin-top: 10px; font-weight: 500; font-size: 18px; }
+  .cv-contact { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+  .cv-contact a { color: var(--fg); text-decoration: none; }
+  .cv-contact a:hover { color: var(--accent); }
+  .cv-section { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: var(--space-3); padding-block: var(--space-3); border-bottom: 1px solid var(--line); }
+  .cv-section > h2 { font-family: var(--font-mono); font-weight: 400; font-size: var(--text-2xs); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); padding-top: 6px; }
+  .cv-section p, .cv-section li { font-size: 15.5px; line-height: 1.6; }
+  .cv-role + .cv-role { margin-top: var(--space-3); }
+  .cv-role-head { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 16px; flex-wrap: wrap; }
+  .cv-role h3 { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; }
+  .cv-when { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--muted); }
+  .cv-org { color: var(--muted); font-size: 15px; }
+  .cv-list { margin-top: 10px; padding: 0; list-style: none; display: grid; gap: 7px; }
+  .cv-list li { position: relative; padding-left: 18px; }
+  .cv-list li::before { content: ""; position: absolute; left: 0; top: .78em; width: 8px; height: 1px; background: var(--accent); }
+  .cv-grid { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 8px 16px; }
+  .cv-grid dt { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--muted); padding-top: 2px; }
+  .cv-grid dd { margin: 0; font-size: 15px; }
+  .cv-certs { padding: 0; list-style: none; display: grid; gap: 8px; }
+  .cv-certs li { display: flex; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap; }
+  .cv-certs li span:last-child { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--muted); }
+  .cv-certs strong { font-weight: 500; color: var(--accent); }
+  @media (max-width: 720px) {
+    .cv-section { grid-template-columns: 1fr; gap: 8px; }
+    .cv-grid { grid-template-columns: 1fr; gap: 2px; }
+    .cv-grid dd { margin-bottom: 8px; }
+  }
+  @media print {
+    .cv-nav, .cv-actions { display: none; }
+    body { background: #fff; }
+    .cv { padding-block: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="container cv">
+  <nav class="cv-nav" aria-label="Back">
+    <a href="index.html">← Akshay Bhandari</a>
+    <span>Curriculum vitae</span>
+  </nav>
+
+  <header class="cv-head">
+    <h1 class="cv-name">Akshay <em>Bhandari</em></h1>
+    <p class="cv-title">Director · Digital Forensics &amp; Incident Response · Cyber Risk Consulting</p>
+    <p class="cv-contact">
+      <a href="mailto:akshaybhandari48@gmail.com">akshaybhandari48@gmail.com</a>
+      <a href="https://www.linkedin.com/in/akshaybhandari48/" target="_blank" rel="noopener">linkedin.com/in/akshaybhandari48</a>
+      <span>Mumbai, India</span>
+    </p>
+  </header>
+
+  <section class="cv-section" aria-labelledby="cv-summary">
+    <h2 id="cv-summary">Summary</h2>
+    <p>Senior DFIR professional with 8.5 years of experience in incident response, digital forensics, ransomware investigations and cyber risk consulting. Led 200+ major cyber incidents for 50+ enterprise clients at Ankura and Kroll, reducing average client downtime by about 25% and maintaining forensic integrity across 100+ acquisitions. Skilled in cloud forensics (M365, Azure, AWS, GCP), EDR and SIEM platforms, and executive stakeholder engagement. GIAC GCFA and GCIH certified.</p>
+  </section>
+
+  <section class="cv-section" aria-labelledby="cv-experience">
+    <h2 id="cv-experience">Experience</h2>
+    <div>
+      <div class="cv-role">
+        <div class="cv-role-head"><h3>Director, Data &amp; Technology</h3><span class="cv-when">Nov 2024 – Present · Mumbai</span></div>
+        <p class="cv-org">Ankura Consulting Group</p>
+        <ul class="cv-list">
+          <li>Lead ransomware and data breach investigations for enterprise clients across financial services, hospitality and manufacturing, directing containment, forensic analysis, recovery planning and threat actor negotiations, reducing average client downtime by about 25%.</li>
+          <li>Run enterprise-scale IR engagements with CrowdStrike Falcon, SentinelOne, Carbon Black, Microsoft Defender XDR, Cortex XDR, Splunk and Microsoft Sentinel: threat hunting, compromise assessments, IOC scoping, containment validation, dark web investigations and threat intelligence.</li>
+          <li>Direct concurrent engagements spanning ransomware, insider threats, BEC and advanced intrusions, reconstructing attack paths and delivering executive and technical reports within agreed SLAs.</li>
+          <li>Acquire and analyse disk images, memory captures, endpoint artefacts, server logs and cloud evidence with FTK, EnCase, Autopsy and Volatility, with full chain of custody.</li>
+          <li>Conduct cloud forensic investigations across AWS, Microsoft 365, Azure and GCP: authentication events, audit logs, mailbox activity and identity compromise.</li>
+          <li>Produce forensic reports, attack timelines, root-cause analyses and briefings for legal counsel, cyber insurers and senior leadership; build Python, PowerShell and Bash automation for evidence collection and IOC enrichment.</li>
+          <li>Design and facilitate ransomware tabletop exercises and IR simulations.</li>
+        </ul>
+      </div>
+      <div class="cv-role">
+        <div class="cv-role-head"><h3>Senior Associate, DFIR</h3><span class="cv-when">Feb 2020 – Oct 2024 · Mumbai</span></div>
+        <p class="cv-org">Kroll (Duff &amp; Phelps)</p>
+        <ul class="cv-list">
+          <li>Investigated and contained ransomware, malware, unauthorised access and lateral-movement incidents across client enterprise environments.</li>
+          <li>Performed end-to-end incident response: triage, containment, eradication, recovery support, forensic analysis, IOC scoping and root-cause determination.</li>
+          <li>Ran threat hunts and compromise assessments to find attacker persistence and validate containment.</li>
+          <li>Developed detection use cases and correlation rules across EDR and SIEM platforms to reduce mean time to detect; supported EDR deployment and tuning.</li>
+        </ul>
+      </div>
+      <div class="cv-role">
+        <div class="cv-role-head"><h3>Junior Security Analyst</h3><span class="cv-when">Sep 2018 – Feb 2020 · Mumbai</span></div>
+        <p class="cv-org">Essen Vision Pvt. Ltd.</p>
+        <ul class="cv-list">
+          <li>Carried out vulnerability assessments, penetration tests and security audits across enterprise environments.</li>
+          <li>Performed forensic investigations into malware infections, unauthorised access and policy violations, following chain-of-custody requirements.</li>
+          <li>Monitored and investigated alerts with SIEM, DLP, firewall, NAC and endpoint security tools; designed secure server configuration standards.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="cv-section" aria-labelledby="cv-skills">
+    <h2 id="cv-skills">Skills</h2>
+    <dl class="cv-grid">
+      <dt>Investigations</dt><dd>Ransomware and data breach, BEC, insider threat, third-party vendor breach, Active Directory forensics, mobile forensics</dd>
+      <dt>Practice</dt><dd>Threat hunting, malware triage and sandbox analysis, threat intelligence, threat actor negotiation, dark web monitoring, tabletop exercises</dd>
+      <dt>EDR</dt><dd>CrowdStrike Falcon, SentinelOne, Trend Micro Vision One, Cortex XDR, Microsoft Defender XDR</dd>
+      <dt>SIEM</dt><dd>Splunk, Microsoft Sentinel, Singularity, Wazuh</dd>
+      <dt>Forensics</dt><dd>FTK, EnCase, Autopsy, Volatility, Velociraptor, Zimmerman Tools</dd>
+      <dt>Cloud</dt><dd>AWS, Google Cloud, Microsoft Azure, Microsoft 365</dd>
+      <dt>Frameworks</dt><dd>MITRE ATT&amp;CK, NIST SP 800-61</dd>
+      <dt>Scripting</dt><dd>Python, PowerShell, Bash</dd>
+      <dt>Languages</dt><dd>English (fluent), Hindi (native)</dd>
+    </dl>
+  </section>
+
+  <section class="cv-section" aria-labelledby="cv-certs">
+    <h2 id="cv-certs">Certifications</h2>
+    <ul class="cv-certs">
+      <li><span><strong>GCFA</strong> GIAC Certified Forensic Analyst</span><span>GIAC / SANS · Jul 2022</span></li>
+      <li><span><strong>GCIH</strong> GIAC Certified Incident Handler</span><span>GIAC / SANS · Aug 2021</span></li>
+      <li><span>Metasploit Pro Certified Specialist</span><span>Rapid7 · Jan 2019</span></li>
+      <li><span>Nexpose Certified Administrator</span><span>Rapid7 · Nov 2018</span></li>
+      <li><span>EC-Council Certified Security Analyst (ECSA)</span><span>EC-Council · Aug 2018</span></li>
+    </ul>
+  </section>
+
+  <section class="cv-section" aria-labelledby="cv-edu">
+    <h2 id="cv-edu">Education</h2>
+    <div>
+      <p><strong style="font-weight:500">BSc (Hons) Digital Forensics &amp; Counterterrorism</strong></p>
+      <p class="cv-org">Middlesex University, London · 2014 – 2017</p>
+    </div>
+  </section>
+
+  <div class="cta-row cv-actions" style="margin-top: var(--space-4)">
+    <a class="btn btn-primary" href="mailto:akshaybhandari48@gmail.com">Email me</a>
+    <a class="btn" href="index.html">Back to portfolio</a>
+  </div>
+</div>
+</body>
+</html>
