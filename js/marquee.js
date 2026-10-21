@@ -33,5 +33,21 @@
     };
     setSpeed();
     window.addEventListener('load', setSpeed);
+
+    // Pause / play button, so keyboard and touch users can stop the motion too
+    const strip = track.closest('.tool-strip');
+    if (!strip) return;
+    const ICON_PAUSE = '<svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1" width="3" height="10" rx=".5"/><rect x="7.5" y="1" width="3" height="10" rx=".5"/></svg>';
+    const ICON_PLAY = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.2v9.6a.5.5 0 0 0 .76.43l7.7-4.8a.5.5 0 0 0 0-.86l-7.7-4.8a.5.5 0 0 0-.76.43z"/></svg>';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'tool-pause';
+    const render = paused => {
+      btn.innerHTML = paused ? ICON_PLAY : ICON_PAUSE;
+      btn.setAttribute('aria-label', paused ? 'Play tool list' : 'Pause tool list');
+    };
+    btn.addEventListener('click', () => render(strip.classList.toggle('is-paused')));
+    render(false);
+    strip.appendChild(btn);
   };
 })();

@@ -82,7 +82,8 @@
   display: flex; width: max-content;
   animation: tool-scroll var(--marquee-duration, 40s) linear infinite;
 }
-.tool-strip:hover .tool-track { animation-play-state: paused; }
+.tool-strip:hover .tool-track,
+.tool-strip.is-paused .tool-track { animation-play-state: paused; }
 @keyframes tool-scroll { to { transform: translateX(-50%); } }
 .tool {
   display: flex; align-items: center; gap: 10px;
@@ -103,10 +104,25 @@
 .tool[data-logo="wazuh.png"] .tool-logo,
 .deck-logos img[src$="wazuh.png"] { border-radius: 8px; }
 .deck-logos img[src$="splunk.png"] { border-radius: 50%; }
+/* Reduced motion: keep it moving, but at half speed (the pause button stops it fully) */
 @media (prefers-reduced-motion: reduce) {
-  .tool-track { animation: none; flex-wrap: wrap; width: auto; }
-  .tool-track [aria-hidden="true"] { display: none; }
+  .tool-track { animation-duration: calc(var(--marquee-duration, 40s) * 2); }
 }
+
+/* Pause / play button at the end of the strip (added by js/marquee.js) */
+.tool-pause {
+  flex: none; align-self: stretch;
+  display: grid; place-items: center;
+  width: 48px; padding: 0;
+  margin-right: env(safe-area-inset-right, 0px);
+  border: 0; border-left: 1px solid var(--line);
+  background: var(--surface); color: var(--muted);
+  cursor: pointer;
+  transition: color .2s;
+}
+.tool-pause:hover { color: var(--accent); }
+.tool-pause:focus-visible { outline-offset: -4px; }
+.tool-pause svg { width: 12px; height: 12px; fill: currentColor; }
 
 /* ---------- Toolkit deck ----------
    Cards fan out in 3D around the active one (like a stack of sign-in cards).
