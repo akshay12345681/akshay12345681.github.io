@@ -74,7 +74,7 @@
 .hero-name {
   position: absolute; z-index: 1;
   left: max(var(--gutter), env(safe-area-inset-left, 0px));
-  bottom: calc(var(--text-hero) * -0.06);
+  bottom: calc(var(--text-hero) * 0.02);  /* high enough that the "y" descender isn't clipped */
   font-family: var(--font-display);
   font-weight: 400;
   font-size: var(--text-hero);
@@ -226,7 +226,7 @@
 .hero-role {
   position: absolute; z-index: 1;
   left: max(var(--gutter), env(safe-area-inset-left, 0px));
-  bottom: calc(var(--text-hero) * 0.98);
+  bottom: calc(var(--text-hero) * 1.06);  /* keeps the same gap above the name */
   display: flex; align-items: center; gap: 10px;
   font-family: var(--font-body); font-weight: 500;
   font-size: clamp(15px, 1.45vw, 19px);

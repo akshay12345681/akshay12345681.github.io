@@ -1,0 +1,66 @@
+/* Blog posts (writing/*.html).
+   The layout comes from the homepage (sections.css: .section, .label,
+   .statement, .lead, .stats, .roles). This file only adds what a post needs
+   on top: the title, the meta line and the drawings. */
+
+body { padding-top: 52px; }                 /* the top bar is always shown here */
+.topbar-links a[aria-current] { color: var(--accent); }
+
+/* ---------- Title ---------- */
+.post-hero { padding-block: var(--space-5) var(--space-6); }
+.post-title {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(48px, 7vw, 96px); line-height: .98; letter-spacing: -.02em;
+  max-width: 15ch; text-wrap: balance;
+}
+.post-title em { color: var(--accent); }
+.post-meta {
+  margin-top: var(--space-3);
+  display: flex; flex-wrap: wrap; gap: 6px 22px;
+  font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+.post-hero .stats { max-width: 760px; }
+
+/* ---------- Drawings ---------- */
+.pic { margin: var(--space-4) 0 0; }
+.panel { padding: clamp(16px, 2.6vw, 30px); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.pic svg { display: block; width: 100%; height: auto; }
+.pic figcaption { margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--line); font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+@media (max-width: 640px) {
+  .panel:has(> svg) { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .pic svg { min-width: 680px; }
+}
+
+/* Shared SVG pieces */
+.svg-t  { font-family: var(--font-body); font-size: 17px; font-weight: 500; fill: var(--fg); }
+.svg-m  { font-family: var(--font-mono); font-size: 12.5px; fill: var(--muted); }
+.svg-mr { font-family: var(--font-mono); font-size: 12.5px; fill: var(--accent); }
+.room  { fill: var(--bg); stroke: var(--line); stroke-width: 1.5; }
+.cloud { fill: var(--bg); stroke: var(--line); stroke-width: 1.5; }
+.wire  { fill: none; stroke: #c9c4bc; stroke-width: 1.5; }
+.wire-in { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 5 5; }
+.dev   { fill: var(--surface); stroke: var(--fg); stroke-width: 1.5; }
+.dev-l { stroke: var(--fg); stroke-width: 1.5; stroke-linecap: round; }
+.dev-dot { fill: var(--accent); }
+.brick { fill: color-mix(in srgb, var(--accent) 12%, var(--surface)); stroke: var(--accent); stroke-width: 1.5; }
+.ghost { opacity: .14; }
+
+/* Company chart */
+.person circle { stroke-width: 1.5; }
+.person text { font-family: var(--font-mono); font-size: 13px; font-weight: 500; text-anchor: middle; dominant-baseline: central; }
+.d-it   { --d: #3d6fb6; } .d-hr { --d: #8a5cb8; } .d-fin { --d: #2f8a5a; }
+.d-sal  { --d: #b8701a; } .d-ops { --d: #2f8791; } .d-mgt { --d: #6f6b66; }
+.dept circle { fill: color-mix(in srgb, var(--d) 13%, var(--surface)); stroke: var(--d); }
+.dept .person text { fill: var(--d); }
+.dept .dname { font-family: var(--font-body); font-size: 16px; font-weight: 500; fill: var(--fg); text-anchor: middle; }
+.dept .dcount { font-family: var(--font-mono); font-size: 12px; fill: var(--muted); text-anchor: middle; }
+
+/* ---------- The build: the homepage timeline, a little more room ---------- */
+.section .roles { margin-top: var(--space-4); }
+.role-when span:last-child { color: var(--accent); }
+
+/* Phones: a hint that the drawing scrolls sideways */
+.swipe { display: none; }
+@media (max-width: 640px) {
+  .swipe { display: block; margin-top: 10px; font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: .06em; color: var(--accent); }
+}

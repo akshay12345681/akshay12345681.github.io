@@ -49,6 +49,7 @@
     <div class="topbar-links">
       <a href="#about">About</a>
       <a href="#toolkit">Toolkit</a>
+      <a href="#projects">Lab</a>
       <a href="#cases">Cases</a>
       <a href="#contact">Contact</a>
       <a href="cv.html">CV</a>
@@ -85,6 +86,7 @@
       <nav class="corner-nav" aria-label="Sections">
         <a href="#about">About</a>
           <a href="#toolkit">Toolkit</a>
+        <a href="#projects">Lab</a>
         <a href="#cases">Cases</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -256,6 +258,43 @@
         <button type="button" class="deck-btn" data-dir="-1" aria-label="Previous area">←</button>
         <span class="deck-count" id="deckCount" aria-live="polite">03 / 06</span>
         <button type="button" class="deck-btn" data-dir="1" aria-label="Next area">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section class="section" id="projects" aria-labelledby="projects-title">
+    <div class="container section-grid">
+      <p class="label">Lab</p>
+      <div>
+        <h2 class="statement" id="projects-title">A company network I built to attack, break and investigate.</h2>
+        <!-- Copy an <article class="feature"> block to add another project. -->
+        <article class="feature">
+          <div class="feature-text">
+            <div class="case-top"><span class="label">Lab notes 01</span><span class="status">27 Oct 2026 · 3 min read</span></div>
+            <h3><a class="feature-link" href="writing/building-a-company-to-break-it.html">Building a company to break it</a></h3>
+            <p>I built a fictional 24-person logistics firm on one PC, with a domain, a website, a SIEM and an attacker, to practise incident response on a network I know inside out. How it's designed and what's been built.</p>
+            <dl class="feature-stats">
+              <div><dd>11</dd><dt>VMs</dt></div>
+              <div><dd>5</dd><dt>Zones</dt></div>
+              <div><dd>24</dd><dt>Staff</dt></div>
+            </dl>
+            <ul class="tags"><li>OPNsense</li><li>Active Directory</li><li>SQL Server</li><li>IIS</li><li>Wazuh</li><li>Kali</li></ul>
+            <p class="feature-more">Read the post →</p>
+          </div>
+          <div class="feature-map" aria-hidden="true">
+            <span class="fm-node">Internet · KALI01</span>
+            <span class="fm-line"></span>
+            <span class="fm-node fm-fw">fw01 · OPNsense</span>
+            <span class="fm-line"></span>
+            <span class="fm-zones">
+              <span class="fm-zone"><b>Servers</b>DC01 · FS01<br>SQL01 · SIEM01</span>
+              <span class="fm-zone"><b>Users</b>WS01 · WS02<br>WS03</span>
+              <span class="fm-zone"><b>DMZ</b>WEB01</span>
+              <span class="fm-zone"><b>Forensics</b>ANALYST01</span>
+            </span>
+          </div>
+        </article>
       </div>
     </div>
   </section>
