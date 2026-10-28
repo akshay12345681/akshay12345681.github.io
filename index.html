@@ -138,10 +138,20 @@
   <div class="container proof-inner">
     <dl class="proof-stats">
       <div class="proof-stat"><dt>Years in DFIR</dt><dd>8.5</dd></div>
-      <div class="proof-stat"><dt>Major incidents led</dt><dd>200+</dd></div>
-      <div class="proof-stat"><dt>Enterprise clients</dt><dd>50+</dd></div>
-      <div class="proof-stat"><dt>Forensic acquisitions</dt><dd>100+</dd></div>
-      <div class="proof-stat"><dt>Less client downtime</dt><dd>~25%</dd></div>
+      <!-- Rotating stats: the three change together (data-sync="stats").
+           The latest-role figures show first, and are the ones shown with reduced motion. -->
+      <div class="proof-stat"><div class="rotator proof-rot" data-sync="stats" data-interval="6000" data-delay="2500">
+        <div class="proof-alt"><span class="proof-num">27+</span><span class="proof-lab">Incidents led<span class="proof-scope">latest role</span></span></div>
+        <div class="proof-alt"><span class="proof-num">200+</span><span class="proof-lab">Incidents investigated<span class="proof-scope">career</span></span></div>
+      </div></div>
+      <div class="proof-stat"><div class="rotator proof-rot" data-sync="stats">
+        <div class="proof-alt"><span class="proof-num">20+</span><span class="proof-lab">Enterprise clients<span class="proof-scope">latest role</span></span></div>
+        <div class="proof-alt"><span class="proof-num">50+</span><span class="proof-lab">Enterprise clients<span class="proof-scope">career</span></span></div>
+      </div></div>
+      <div class="proof-stat"><div class="rotator proof-rot" data-sync="stats">
+        <div class="proof-alt"><span class="proof-num">30+</span><span class="proof-lab">Forensic acquisitions<span class="proof-scope">latest role</span></span></div>
+        <div class="proof-alt"><span class="proof-num">100+</span><span class="proof-lab">Forensic acquisitions<span class="proof-scope">career</span></span></div>
+      </div></div>
     </dl>
     <div class="proof-creds">
       <ul class="cert-pills" aria-label="Certifications">

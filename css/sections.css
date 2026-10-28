@@ -407,6 +407,17 @@
   font-family: var(--font-mono); font-size: var(--text-2xs);
   letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
 }
+/* Rotating stats: same look as the fixed ones (number above, label below) */
+.proof-alt { display: flex; flex-direction: column; gap: 2px; }
+.proof-num {
+  font-family: var(--font-display); font-size: clamp(30px, 3vw, 40px); line-height: 1;
+  color: var(--accent); font-variant-numeric: tabular-nums;
+}
+.proof-lab {
+  font-family: var(--font-mono); font-size: var(--text-2xs);
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+.proof-scope::before { content: " · "; }   /* phones: own line instead */
 .proof-creds { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .cert-pills { display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .cert-pills li {
@@ -434,7 +445,9 @@
 
 @media (max-width: 720px) {
   .proof-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: 100%; }
-  .proof-stat dd { font-size: 28px; }
+  .proof-stat dd, .proof-num { font-size: 28px; }
+  .proof-scope { display: block; }
+  .proof-scope::before { content: none; }
   .skills li { font-size: 13.5px; padding: 7px 12px; }
   .corner .cta-row { flex-wrap: nowrap; }
   .corner .cta-row .btn { padding: 8px 12px; font-size: 10.5px; }
@@ -488,3 +501,6 @@
 
 /* Links inside paragraphs */
 .lead a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+/* About: wider lines, so the longer text takes fewer lines */
+#about .lead { max-width: 80ch; }
