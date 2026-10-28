@@ -37,6 +37,7 @@
 <script src="js/rotator.js" defer></script>
 <script src="js/marquee.js" defer></script>
 <script src="js/deck.js" defer></script>
+<script src="js/labmap.js" defer></script>
 <script src="js/main.js" defer></script>
 </head>
 <body>
@@ -157,6 +158,8 @@
       <ul class="cert-pills" aria-label="Certifications">
         <li title="GIAC Certified Forensic Analyst">GCFA</li>
         <li title="GIAC Certified Incident Handler">GCIH</li>
+        <li title="EC-Council Certified Security Analyst">ECSA</li>
+        <li title="EC-Council Certified Ethical Hacker">CEH</li>
       </ul>
       <p class="proof-firms"><span>Now</span> Ankura <span class="sep">/</span> <span>Before</span> Kroll</p>
     </div>
@@ -165,30 +168,76 @@
 
 <!-- ============ TOOL STRIP ============ -->
 <div class="tool-strip" aria-label="Tools I use">
-  <span class="tool-strip-label">Toolkit</span>
   <div class="tool-marquee">
-    <!-- To add a tool: copy an <li>. data-logo = logo file name in assets/logos/ -->
+    <!-- To add a tool: copy an <li>. data-logo = logo file name in assets/logos/;
+         without a logo, data-mono = up to 3 letters shown on the disc instead -->
     <ul class="tool-track" id="toolTrack">
-      <li class="tool" data-logo="crowdstrike.png">CrowdStrike Falcon</li>
-      <li class="tool" data-logo="sentinelone.png">SentinelOne</li>
-      <li class="tool" data-logo="microsoft.png">Microsoft Defender XDR</li>
-      <li class="tool" data-logo="paloalto.png">Cortex XDR</li>
-      <li class="tool" data-logo="trendmicro.png">Trend Micro Vision One</li>
-      <li class="tool" data-logo="splunk.png">Splunk</li>
-      <li class="tool" data-logo="microsoft.png">Microsoft Sentinel</li>
-      <li class="tool" data-logo="wazuh.png">Wazuh</li>
-      <li class="tool">FTK</li>
-      <li class="tool">EnCase</li>
       <li class="tool" data-logo="autopsy.png">Autopsy</li>
+      <li class="tool" data-mono="EN">EnCase</li>
+      <li class="tool" data-mono="FTK">FTK</li>
+      <li class="tool" data-mono="FI">FTK Imager</li>
+      <li class="tool" data-mono="XW">X-Ways Forensics</li>
+      <li class="tool" data-mono="AX">Magnet AXIOM</li>
+      <li class="tool" data-mono="AIM">Arsenal Image Mounter</li>
+      <li class="tool" data-mono="EZ">Eric Zimmerman’s Tools</li>
+      <li class="tool" data-mono="KA">KAPE</li>
+      <li class="tool" data-mono="PL">Plaso</li>
+      <li class="tool" data-mono="TS">Timesketch</li>
+      <li class="tool" data-mono="HB">Hayabusa</li>
+      <li class="tool" data-mono="CH">Chainsaw</li>
       <li class="tool" data-logo="volatility.png">Volatility</li>
       <li class="tool" data-logo="velociraptor.png">Velociraptor</li>
-      <li class="tool">Zimmerman Tools</li>
-      <li class="tool" data-logo="microsoft.png">Microsoft 365</li>
-      <li class="tool" data-logo="azure.png">Azure</li>
+      <li class="tool" data-mono="MP">MemProcFS</li>
+      <li class="tool" data-mono="WP">WinPmem</li>
+      <li class="tool" data-mono="MR">Magnet RAM Capture</li>
+      <li class="tool" data-mono="TL">THOR / Loki</li>
+      <li class="tool" data-mono="CA">CAPE Sandbox</li>
+      <li class="tool" data-mono="YA">YARA</li>
+      <li class="tool" data-mono="GH">Ghidra</li>
+      <li class="tool" data-mono="XD">x64dbg</li>
+      <li class="tool" data-mono="PE">PEStudio</li>
+      <li class="tool" data-mono="CC">CyberChef</li>
+      <li class="tool" data-mono="CP">capa</li>
+      <li class="tool" data-mono="FL">FLOSS</li>
+      <li class="tool" data-mono="RE">REMnux</li>
+      <li class="tool" data-mono="WS">Wireshark</li>
+      <li class="tool" data-mono="NM">Nmap</li>
+      <li class="tool" data-mono="ZK">Zeek</li>
+      <li class="tool" data-mono="NW">NetworkMiner</li>
+      <li class="tool" data-mono="TD">tcpdump</li>
+      <li class="tool" data-mono="AK">Arkime</li>
+      <li class="tool" data-mono="SU">Suricata</li>
+      <li class="tool" data-logo="crowdstrike.png">CrowdStrike Falcon</li>
+      <li class="tool" data-logo="sentinelone.png">SentinelOne</li>
+      <li class="tool" data-mono="CB">Carbon Black</li>
+      <li class="tool" data-logo="trendmicro.png">Trend Micro Vision One</li>
+      <li class="tool" data-logo="microsoft.png">Microsoft Defender for Endpoint</li>
+      <li class="tool" data-logo="microsoft.png">Microsoft Defender XDR</li>
+      <li class="tool" data-logo="paloalto.png">Cortex XDR</li>
+      <li class="tool" data-logo="splunk.png">Splunk</li>
+      <li class="tool" data-mono="QR">IBM QRadar</li>
+      <li class="tool" data-logo="wazuh.png">Wazuh</li>
+      <li class="tool" data-logo="microsoft.png">Microsoft Sentinel</li>
+      <li class="tool" data-mono="EL">Elastic Stack</li>
+      <li class="tool" data-mono="KL">Kali Linux</li>
+      <li class="tool" data-mono="PO">Parrot OS</li>
+      <li class="tool" data-mono="MS">Metasploit</li>
+      <li class="tool" data-mono="CS">Cobalt Strike</li>
+      <li class="tool" data-mono="EM">PowerShell Empire</li>
+      <li class="tool" data-mono="BS">Burp Suite</li>
+      <li class="tool" data-mono="BH">BloodHound</li>
+      <li class="tool" data-mono="IM">Impacket</li>
+      <li class="tool" data-mono="SL">Sliver</li>
       <li class="tool" data-logo="aws.png">AWS</li>
-      <li class="tool" data-logo="googlecloud.png">Google Cloud</li>
-      <li class="tool" data-logo="python.png">Python</li>
+      <li class="tool" data-logo="azure.png">Microsoft Azure</li>
+      <li class="tool" data-logo="googlecloud.png">Google Cloud Platform</li>
+      <li class="tool" data-logo="microsoft.png">Microsoft 365 / Entra ID</li>
+      <li class="tool" data-mono="WIN">Windows</li>
+      <li class="tool" data-mono="MAC">macOS</li>
+      <li class="tool" data-mono="LNX">Linux</li>
       <li class="tool" data-logo="powershell.png">PowerShell</li>
+      <li class="tool" data-mono="SH">Bash</li>
+      <li class="tool" data-logo="python.png">Python</li>
     </ul>
   </div>
 </div>
@@ -226,58 +275,90 @@
     <!-- Card deck. Keep only tools you've actually used. Copy an <article class="deck-card"> to add an area. -->
     <div class="container">
       <div class="deck" id="toolDeck" role="group" aria-label="Toolkit by area. Hover, tap or use the arrow keys to browse.">
-      <article class="deck-card" tabindex="0" aria-label="EDR: CrowdStrike Falcon, SentinelOne, Microsoft Defender XDR, Cortex XDR, Trend Micro Vision One, Carbon Black">
+      <article class="deck-card" tabindex="0" aria-label="Disk Forensics: Autopsy, EnCase, FTK, FTK Imager, X-Ways Forensics, Magnet AXIOM, Arsenal Image Mounter">
         <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
-        <div class="deck-logos" aria-hidden="true"><img src="assets/logos/crowdstrike.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/sentinelone.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/paloalto.png" alt="" width="40" height="40" loading="lazy" decoding="async"></div>
-        <p class="deck-num">01 / 06</p>
-        <h3>EDR</h3>
-        <p class="deck-desc">Hunting, scoping and containing threats across thousands of endpoints at once.</p>
-        <ul class="kit-tools"><li>CrowdStrike Falcon</li><li>SentinelOne</li><li>Microsoft Defender XDR</li><li>Cortex XDR</li><li>Trend Micro Vision One</li><li>Carbon Black</li></ul>
+        <div class="deck-logos" aria-hidden="true"><img src="assets/logos/autopsy.png" alt="" width="40" height="40" loading="lazy" decoding="async"></div>
+        <p class="deck-num">01 / 10</p>
+        <h3>Disk Forensics</h3>
+        <p class="deck-desc">Acquiring and analysing disk images with full chain of custody.</p>
+        <ul class="kit-tools"><li>Autopsy</li><li>EnCase</li><li>FTK</li><li>FTK Imager</li><li>X-Ways Forensics</li><li>Magnet AXIOM</li><li>Arsenal Image Mounter</li></ul>
       </article>
-      <article class="deck-card" tabindex="0" aria-label="SIEM: Splunk, Microsoft Sentinel, Wazuh, Singularity">
-        <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
-        <div class="deck-logos" aria-hidden="true"><img src="assets/logos/splunk.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/microsoft.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/wazuh.png" alt="" width="40" height="40" loading="lazy" decoding="async"></div>
-        <p class="deck-num">02 / 06</p>
-        <h3>SIEM</h3>
-        <p class="deck-desc">Correlating logs across the estate to find, scope and timeline attacker activity.</p>
-        <ul class="kit-tools"><li>Splunk</li><li>Microsoft Sentinel</li><li>Wazuh</li><li>Singularity</li></ul>
-      </article>
-      <article class="deck-card" tabindex="0" aria-label="Forensic platforms: FTK, EnCase, Autopsy, Volatility, Velociraptor, Zimmerman Tools">
-        <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
-        <div class="deck-logos" aria-hidden="true"><img src="assets/logos/autopsy.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/volatility.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/velociraptor.png" alt="" width="40" height="40" loading="lazy" decoding="async"></div>
-        <p class="deck-num">03 / 06</p>
-        <h3>Forensic platforms</h3>
-        <p class="deck-desc">Acquiring and analysing disk images, memory and endpoint artefacts with full chain of custody.</p>
-        <ul class="kit-tools"><li>FTK</li><li>EnCase</li><li>Autopsy</li><li>Volatility</li><li>Velociraptor</li><li>Zimmerman Tools</li></ul>
-      </article>
-      <article class="deck-card" tabindex="0" aria-label="Cloud: Microsoft 365, Azure, AWS, Google Cloud">
-        <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
-        <div class="deck-logos" aria-hidden="true"><img src="assets/logos/microsoft.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/azure.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/aws.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/googlecloud.png" alt="" width="40" height="40" loading="lazy" decoding="async"></div>
-        <p class="deck-num">04 / 06</p>
-        <h3>Cloud</h3>
-        <p class="deck-desc">Tracing identity compromise through audit logs, sign-ins and mailbox activity.</p>
-        <ul class="kit-tools"><li>Microsoft 365</li><li>Azure</li><li>AWS</li><li>Google Cloud</li></ul>
-      </article>
-      <article class="deck-card" tabindex="0" aria-label="Investigations: Ransomware, BEC, Insider threat, Active Directory, Threat actor negotiation, Dark web monitoring">
+      <article class="deck-card" tabindex="0" aria-label="Artefact Analysis &amp; Timelining: Eric Zimmerman’s Tools, KAPE, Plaso, Timesketch, Hayabusa, Chainsaw">
         <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
         <div class="deck-logos" aria-hidden="true"></div>
-        <p class="deck-num">05 / 06</p>
-        <h3>Investigations</h3>
-        <p class="deck-desc">From first scoping call to root cause, whatever kind of incident it is.</p>
-        <ul class="kit-tools"><li>Ransomware</li><li>BEC</li><li>Insider threat</li><li>Active Directory</li><li>Threat actor negotiation</li><li>Dark web monitoring</li></ul>
+        <p class="deck-num">02 / 10</p>
+        <h3>Artefact Analysis &amp; Timelining</h3>
+        <p class="deck-desc">Parsing system artefacts and building timelines of what happened, and when.</p>
+        <ul class="kit-tools"><li>Eric Zimmerman’s Tools</li><li>KAPE</li><li>Plaso</li><li>Timesketch</li><li>Hayabusa</li><li>Chainsaw</li></ul>
       </article>
-      <article class="deck-card" tabindex="0" aria-label="Frameworks and automation: MITRE ATT&amp;CK, NIST SP 800-61, Python, PowerShell, Bash">
+      <article class="deck-card" tabindex="0" aria-label="Memory &amp; Live Response: Volatility, Velociraptor, MemProcFS, WinPmem, Magnet RAM Capture, THOR / Loki">
+        <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
+        <div class="deck-logos" aria-hidden="true"><img src="assets/logos/volatility.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/velociraptor.png" alt="" width="40" height="40" loading="lazy" decoding="async"></div>
+        <p class="deck-num">03 / 10</p>
+        <h3>Memory &amp; Live Response</h3>
+        <p class="deck-desc">Capturing and analysing memory and live systems before the evidence is lost.</p>
+        <ul class="kit-tools"><li>Volatility</li><li>Velociraptor</li><li>MemProcFS</li><li>WinPmem</li><li>Magnet RAM Capture</li><li>THOR / Loki</li></ul>
+      </article>
+      <article class="deck-card" tabindex="0" aria-label="Malware Analysis: CAPE Sandbox, YARA, Ghidra, x64dbg, PEStudio, CyberChef, capa, FLOSS, REMnux">
+        <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
+        <div class="deck-logos" aria-hidden="true"></div>
+        <p class="deck-num">04 / 10</p>
+        <h3>Malware Analysis</h3>
+        <p class="deck-desc">Taking samples apart to see what they do and how to detect them.</p>
+        <ul class="kit-tools"><li>CAPE Sandbox</li><li>YARA</li><li>Ghidra</li><li>x64dbg</li><li>PEStudio</li><li>CyberChef</li><li>capa</li><li>FLOSS</li><li>REMnux</li></ul>
+      </article>
+      <article class="deck-card" tabindex="0" aria-label="Network Forensics &amp; Analysis: Wireshark, Nmap, Zeek, NetworkMiner, tcpdump, Arkime, Suricata">
+        <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
+        <div class="deck-logos" aria-hidden="true"></div>
+        <p class="deck-num">05 / 10</p>
+        <h3>Network Forensics &amp; Analysis</h3>
+        <p class="deck-desc">Reading packet captures and network logs to follow attacker traffic.</p>
+        <ul class="kit-tools"><li>Wireshark</li><li>Nmap</li><li>Zeek</li><li>NetworkMiner</li><li>tcpdump</li><li>Arkime</li><li>Suricata</li></ul>
+      </article>
+      <article class="deck-card" tabindex="0" aria-label="Endpoint Detection &amp; Response (EDR): CrowdStrike Falcon, SentinelOne, Carbon Black, Trend Micro Vision One, Microsoft Defender for Endpoint">
+        <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
+        <div class="deck-logos" aria-hidden="true"><img src="assets/logos/crowdstrike.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/sentinelone.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/trendmicro.png" alt="" width="40" height="40" loading="lazy" decoding="async"></div>
+        <p class="deck-num">06 / 10</p>
+        <h3>Endpoint Detection &amp; Response (EDR)</h3>
+        <p class="deck-desc">Hunting, scoping and containing threats across thousands of endpoints at once.</p>
+        <ul class="kit-tools"><li>CrowdStrike Falcon</li><li>SentinelOne</li><li>Carbon Black</li><li>Trend Micro Vision One</li><li>Microsoft Defender for Endpoint</li></ul>
+      </article>
+      <article class="deck-card" tabindex="0" aria-label="SIEM &amp; Log Analysis: Splunk, IBM QRadar, Wazuh, Microsoft Sentinel, Elastic Stack">
+        <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
+        <div class="deck-logos" aria-hidden="true"><img src="assets/logos/splunk.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/wazuh.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/microsoft.png" alt="" width="40" height="40" loading="lazy" decoding="async"></div>
+        <p class="deck-num">07 / 10</p>
+        <h3>SIEM &amp; Log Analysis</h3>
+        <p class="deck-desc">Correlating logs across the estate to find, scope and timeline attacker activity.</p>
+        <ul class="kit-tools"><li>Splunk</li><li>IBM QRadar</li><li>Wazuh</li><li>Microsoft Sentinel</li><li>Elastic Stack</li></ul>
+      </article>
+      <article class="deck-card" tabindex="0" aria-label="Offensive Security: Kali Linux, Parrot OS, Metasploit, Cobalt Strike, PowerShell Empire, Burp Suite, BloodHound, Impacket, Sliver">
+        <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
+        <div class="deck-logos" aria-hidden="true"></div>
+        <p class="deck-num">08 / 10</p>
+        <h3>Offensive Security</h3>
+        <p class="deck-desc">Testing defences the way attackers would, to find the weaknesses first.</p>
+        <ul class="kit-tools"><li>Kali Linux</li><li>Parrot OS</li><li>Metasploit</li><li>Cobalt Strike</li><li>PowerShell Empire</li><li>Burp Suite</li><li>BloodHound</li><li>Impacket</li><li>Sliver</li></ul>
+      </article>
+      <article class="deck-card" tabindex="0" aria-label="Cloud: AWS, Microsoft Azure, Google Cloud Platform, Microsoft 365 / Entra ID">
+        <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
+        <div class="deck-logos" aria-hidden="true"><img src="assets/logos/aws.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/azure.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/googlecloud.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/microsoft.png" alt="" width="40" height="40" loading="lazy" decoding="async"></div>
+        <p class="deck-num">09 / 10</p>
+        <h3>Cloud</h3>
+        <p class="deck-desc">Tracing identity compromise through audit logs, sign-ins and mailbox activity.</p>
+        <ul class="kit-tools"><li>AWS</li><li>Microsoft Azure</li><li>Google Cloud Platform</li><li>Microsoft 365 / Entra ID</li></ul>
+      </article>
+      <article class="deck-card" tabindex="0" aria-label="Operating Systems &amp; Scripting: Windows, macOS, Linux, PowerShell, Bash, Python">
         <span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span><span class="deck-dot" aria-hidden="true"></span>
         <div class="deck-logos" aria-hidden="true"><img src="assets/logos/python.png" alt="" width="40" height="40" loading="lazy" decoding="async"><img src="assets/logos/powershell.png" alt="" width="40" height="40" loading="lazy" decoding="async"></div>
-        <p class="deck-num">06 / 06</p>
-        <h3>Frameworks and automation</h3>
-        <p class="deck-desc">Structured response, and the scripts that make it faster.</p>
-        <ul class="kit-tools"><li>MITRE ATT&amp;CK</li><li>NIST SP 800-61</li><li>Python</li><li>PowerShell</li><li>Bash</li></ul>
+        <p class="deck-num">10 / 10</p>
+        <h3>Operating Systems &amp; Scripting</h3>
+        <p class="deck-desc">Working across Windows, macOS and Linux, and scripting the repetitive parts.</p>
+        <ul class="kit-tools"><li>Windows</li><li>macOS</li><li>Linux</li><li>PowerShell</li><li>Bash</li><li>Python</li></ul>
       </article>
       </div>
       <div class="deck-controls">
         <button type="button" class="deck-btn" data-dir="-1" aria-label="Previous area">←</button>
-        <span class="deck-count" id="deckCount" aria-live="polite">03 / 06</span>
+        <span class="deck-count" id="deckCount" aria-live="polite">03 / 10</span>
         <button type="button" class="deck-btn" data-dir="1" aria-label="Next area">→</button>
       </div>
     </div>
@@ -288,34 +369,44 @@
     <div class="container section-grid">
       <p class="label">Lab</p>
       <div>
-        <h2 class="statement" id="projects-title">A company network I built <em>to attack, break and investigate.</em></h2>
-        <!-- Copy an <article class="feature"> block to add another project. -->
-        <article class="feature">
-          <div class="feature-text">
-            <div class="case-top"><span class="label">Lab notes 01</span><span class="status">27 Oct 2026 · 3 min read</span></div>
-            <h3><a class="feature-link" href="writing/building-a-company-to-break-it.html">Building a company to break it</a></h3>
-            <p>I built a fictional 24-person logistics firm on one PC, with a domain, a website, a SIEM and an attacker, to practise incident response on a network I know inside out. How it's designed and what's been built.</p>
-            <dl class="feature-stats">
-              <div><dd>11</dd><dt>VMs</dt></div>
-              <div><dd>5</dd><dt>Zones</dt></div>
-              <div><dd>24</dd><dt>Staff</dt></div>
+        <h2 class="statement" id="projects-title">A company network I built<br> <em>to attack, break and investigate.</em></h2>
+        <!-- Lab: the latest write-up on the left, a map of the lab network on the right.
+             Each machine's zone and description are on its button; js/labmap.js shows them under the map. -->
+        <div class="lab-split">
+          <article class="lp">
+            <p class="lp-meta"><span class="lp-kicker">Lab notes 01</span><span>27 Oct 2026 · 3 min read</span></p>
+            <h3><a href="writing/building-a-company-to-break-it.html">Building a company to break it</a></h3>
+            <p class="lp-lede">I built a fictional 24-person logistics firm on one PC, with a domain, a website, a SIEM and an attacker, to practise incident response on a network I know inside out.</p>
+            <dl class="lp-stats">
+              <div><dt>VMs</dt><dd>11</dd></div>
+              <div><dt>Zones</dt><dd>5</dd></div>
+              <div><dt>Staff</dt><dd>24</dd></div>
             </dl>
-            <ul class="tags"><li>OPNsense</li><li>Active Directory</li><li>SQL Server</li><li>IIS</li><li>Wazuh</li><li>Kali</li></ul>
-            <p class="feature-more">Read the post →</p>
+            <p class="lp-links"><a href="writing/building-a-company-to-break-it.html">Read the post →</a><a class="lp-sec" href="assets/docs/home-dfir-lab-full-guide.pdf">Build guide (PDF)</a></p>
+          </article>
+          <div class="lm">
+            <div class="lm-map" id="labMap" role="group" aria-label="Lab network map. Choose a machine to see what it does.">
+              <div class="lm-net">
+                <div class="lm-inet"><span class="lm-zname">The internet</span><button type="button" class="lm-m" data-zone="The internet" data-role="The attacker. From outside it can reach exactly one thing: the website, on port 80.">KALI01</button></div>
+                <span class="lm-wire" aria-hidden="true"></span>
+                <div class="lm-fw"><span class="lm-zname">Firewall</span><button type="button" class="lm-m" data-zone="Firewall" data-role="OPNsense, the only way between zones. Every connection is allowed, blocked and logged here.">fw01</button><small>the only way between zones</small></div>
+                <span class="lm-drop"><i></i></span>
+                <span class="lm-drop"><i></i></span>
+                <span class="lm-drop lm-path"><i></i></span>
+                <span class="lm-drop"><i></i></span>
+                <div class="lm-zone" data-zone="Servers"><span class="lm-zname">Servers</span><span class="lm-sub">10.10.10.0/24</span><button type="button" class="lm-m" data-zone="Servers" data-role="The lab.local domain controller, with DNS: the 24 staff, department groups, tiered admins and service accounts.">DC01</button><button type="button" class="lm-m" data-zone="Servers" data-role="File server with seven shares, each department locked to its own.">FS01</button><button type="button" class="lm-m" data-zone="Servers" data-role="SQL database that staff reach with their Windows sign-in.">SQL01</button><button type="button" class="lm-m" data-zone="Servers" data-role="Wazuh SIEM, collecting and searching the logs.">SIEM01</button></div>
+                <div class="lm-zone" data-zone="Users"><span class="lm-zname">Users</span><span class="lm-sub">10.10.20.0/24</span><button type="button" class="lm-m" data-zone="Users" data-role="Finance staff PC. Maps its drives at sign-in.">WS01</button><button type="button" class="lm-m" data-zone="Users" data-role="Staff PC. Maps its drives at sign-in.">WS02</button><button type="button" class="lm-m" data-zone="Users" data-role="HR staff PC. Maps its drives at sign-in.">WS03</button></div>
+                <div class="lm-zone" data-zone="DMZ"><span class="lm-zname">DMZ</span><span class="lm-sub">10.10.30.0/24</span><button type="button" class="lm-m is-on" data-zone="DMZ" data-role="The public shipment-tracking website, reading from the database. The only thing the internet can reach.">WEB01</button></div>
+                <div class="lm-zone lm-iso" data-zone="Forensics"><span class="lm-zname">Forensics</span><span class="lm-sub">10.10.40.0/24</span><button type="button" class="lm-m" data-zone="Forensics" data-role="Isolated forensic workstation outside the domain, so the evidence lives where an attacker inside can&#8217;t reach it.">ANALYST01</button></div>
+              </div>
+              <p class="lm-legend"><i aria-hidden="true"></i>The only way in from outside: KALI01 → fw01 → WEB01, port 80</p>
+            </div>
+            <div class="lm-info" id="labInfo" aria-live="polite">
+              <p><b class="lm-info-name">WEB01</b><span class="lm-info-zone">DMZ</span></p>
+              <p class="lm-info-role">The public shipment-tracking website, reading from the database. The only thing the internet can reach.</p>
+            </div>
           </div>
-          <div class="feature-map" aria-hidden="true">
-            <span class="fm-node">Internet · KALI01</span>
-            <span class="fm-line"></span>
-            <span class="fm-node fm-fw">fw01 · OPNsense</span>
-            <span class="fm-line"></span>
-            <span class="fm-zones">
-              <span class="fm-zone"><b>Servers</b>DC01 · FS01<br>SQL01 · SIEM01</span>
-              <span class="fm-zone"><b>Users</b>WS01 · WS02<br>WS03</span>
-              <span class="fm-zone"><b>DMZ</b>WEB01</span>
-              <span class="fm-zone"><b>Forensics</b>ANALYST01</span>
-            </span>
-          </div>
-        </article>
+        </div>
       </div>
     </div>
   </section>

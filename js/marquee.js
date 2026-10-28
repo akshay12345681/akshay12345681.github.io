@@ -13,10 +13,19 @@
       track.appendChild(copy);
     });
 
-    // Logo for each tool: assets/logos/<data-logo>; the name shows alone if the file is missing
+    // Logo for each tool: assets/logos/<data-logo>; the name shows alone if the file is missing.
+    // Tools without a logo get a lettered disc from data-mono.
     Array.from(track.children).forEach(li => {
       const file = li.dataset.logo;
-      if (!file) return;
+      if (!file) {
+        if (!li.dataset.mono) return;
+        const mono = document.createElement('span');
+        mono.className = 'tool-mono';
+        mono.setAttribute('aria-hidden', 'true');
+        mono.textContent = li.dataset.mono;
+        li.prepend(mono);
+        return;
+      }
       const img = document.createElement('img');
       img.className = 'tool-logo';
       img.alt = '';
@@ -33,5 +42,11 @@
     };
     setSpeed();
     window.addEventListener('load', setSpeed);
+
+    // Slow to a quarter speed (not a full stop) while the pointer is over the strap
+    const strip = track.closest('.tool-strip') || track;
+    const rate = r => track.getAnimations().forEach(a => { a.playbackRate = r; });
+    strip.addEventListener('mouseenter', () => rate(0.25));
+    strip.addEventListener('mouseleave', () => rate(1));
   };
 })();

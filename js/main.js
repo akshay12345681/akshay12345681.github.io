@@ -18,6 +18,7 @@
   if (window.initRotators) window.initRotators();
   if (window.initMarquee) window.initMarquee($('toolTrack'));
   if (window.initDeck) window.initDeck($('toolDeck'), $('deckCount'), document.querySelectorAll('.deck-btn'));
+  if (window.initLabMap) window.initLabMap($('labMap'), $('labInfo'));
 
   // Top bar: show it once the hero has scrolled out of view
   const topbar = $('topbar'), stage = $('stage');
