@@ -27,6 +27,20 @@
     }, { rootMargin: '-52px 0px 0px 0px' }).observe(stage);
   }
 
+  // Phones: "Currently" sits below the name; on wider screens it goes back to the top corner
+  const currently = $('currently'), slot = $('currentlySlot');
+  if (currently && slot) {
+    const corner = currently.parentNode;
+    const phone = window.matchMedia('(max-width: 720px)');
+    const place = () => {
+      if (phone.matches) slot.appendChild(currently);
+      else corner.insertBefore(currently, corner.firstChild);
+      slot.hidden = !phone.matches;
+    };
+    phone.addEventListener('change', place);
+    place();
+  }
+
   const year = $('year');
   if (year) year.textContent = new Date().getFullYear();
 

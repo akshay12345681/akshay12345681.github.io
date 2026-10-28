@@ -69,8 +69,8 @@
 @media (max-width: 720px) {
   :root {
     --gutter: 16px;
-    --stage-h: 580px;
-    --badge-w: 156px;
+    --stage-h: 540px;   /* "Currently" moves below the name on phones, so the top needs less room */
+    --badge-w: 168px;
     --anchor-x: 0.75;   /* badge sits in the right half, clear of the text and menu */
     --space-6: 72px;
   }

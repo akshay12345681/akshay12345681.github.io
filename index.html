@@ -77,12 +77,14 @@
       </div>
     </div>
     <div class="corner corner-right">
+      <div class="currently" id="currently">
       <p class="corner-label">Currently</p>
       <div class="rotator" data-interval="5000" data-delay="2500">
         <p class="corner-text">Exploring how AI <em>can speed up incident response.</em></p>
         <p class="corner-text">Researching AI-assisted <em>threat detection.</em></p>
         <p class="corner-text">Advancing log analysis <em>with AI and automation.</em></p>
         <p class="corner-text">Testing new security technologies <em>as they emerge.</em></p>
+      </div>
       </div>
       <nav class="corner-nav" aria-label="Sections">
         <a href="#about">About</a>
@@ -127,6 +129,9 @@
   <svg class="clasp" id="clasp" aria-hidden="true"></svg>
   <div class="hint" id="hint">← grab the badge</div>
 </header>
+
+<!-- On phones, "Currently" moves here, below the name (js/main.js) -->
+<div class="container currently-slot" id="currentlySlot" hidden></div>
 
 <!-- ============ AT A GLANCE (numbers + credentials) ============ -->
 <section class="proof" aria-label="At a glance">
@@ -311,21 +316,21 @@
              Hack The Box: only publish write-ups for RETIRED Sherlocks (HTB's rules). -->
         <div class="cases">
           <article class="case">
-            <div class="case-top"><span class="label">Case 01</span><span class="status">Sample write-up</span></div>
+            <div class="case-top"><span class="label">Case 01</span></div>
             <p class="case-source">DFIR Madness <span class="level level-adv">Advanced</span></p>
             <h3><a class="case-link" href="cases/case-01.html">The Stolen Szechuan Sauce</a></h3>
             <p>A full breach investigation across a domain controller and a workstation, from first access to what was taken.</p>
             <ul class="tags"><li>Autopsy</li><li>Volatility 3</li><li>Plaso</li><li>Wireshark</li></ul>
           </article>
           <article class="case">
-            <div class="case-top"><span class="label">Case 02</span><span class="status">Sample write-up</span></div>
+            <div class="case-top"><span class="label">Case 02</span></div>
             <p class="case-source">Hack The Box Sherlock <span class="level">Windows</span></p>
             <h3><a class="case-link" href="cases/case-02.html">Reconstructing a Windows endpoint compromise</a></h3>
             <p>Rebuilding the attacker's steps on one host from event logs, registry and file system artefacts.</p>
             <ul class="tags"><li>EZ Tools</li><li>Hayabusa</li><li>Timeline Explorer</li></ul>
           </article>
           <article class="case">
-            <div class="case-top"><span class="label">Case 03</span><span class="status">Sample write-up</span></div>
+            <div class="case-top"><span class="label">Case 03</span></div>
             <p class="case-source">Hack The Box Sherlock <span class="level">Network</span></p>
             <h3><a class="case-link" href="cases/case-03.html">Tracing an intrusion through network traffic</a></h3>
             <p>Following the attacker from the first connection to data leaving the network, using packet captures and Zeek logs.</p>
