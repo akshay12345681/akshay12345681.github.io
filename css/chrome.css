@@ -1,0 +1,54 @@
+/* Site chrome shared by every page: the top bar and the footer.
+   On the homepage the bar slides in once the hero is off screen (js/main.js
+   adds .is-visible); every other page shows it all the time (.is-static). */
+
+/* ---------- Top bar: slides in once the hero is off screen (js/main.js adds .is-visible) ---------- */
+.topbar {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform .35s cubic-bezier(.2, .7, .2, 1), visibility 0s linear .35s;
+}
+.topbar.is-visible { transform: none; visibility: visible; transition-delay: 0s; }
+.topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); height: 52px; }
+.topbar-name { font-family: var(--font-display); font-size: 22px; line-height: 1; text-decoration: none; white-space: nowrap; }
+.topbar-name em { color: var(--accent); }
+.topbar-links { display: flex; gap: 20px; }
+.topbar-links a {
+  font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
+}
+@media (max-width: 720px) {
+  .topbar-links { gap: 14px; }
+  .topbar-links a { font-size: 11px; }
+}
+@media (max-width: 420px) {
+  .topbar-name { display: none; }
+  .topbar-inner { justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .topbar { transition: visibility 0s; }
+}
+
+.topbar.is-static { transform: none; visibility: visible; transition: none; }
+body:has(.topbar.is-static) { padding-top: 52px; }
+.topbar-links a[aria-current] { color: var(--accent); }
+
+/* ---------- Footer ---------- */
+.footer {
+  border-top: 1px solid var(--line);
+  padding-block: var(--space-3) var(--space-4);
+}
+.footer .container {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  font-family: var(--font-mono); font-size: var(--text-xs); color: var(--muted);
+}
+
+@media print {
+  .topbar, .footer { display: none; }
+  body:has(.topbar.is-static) { padding-top: 0; }
+}

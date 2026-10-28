@@ -3,8 +3,6 @@
    .statement, .lead, .stats, .roles). This file only adds what a post needs
    on top: the title, the meta line and the drawings. */
 
-body { padding-top: 52px; }                 /* the top bar is always shown here */
-.topbar-links a[aria-current] { color: var(--accent); }
 
 /* ---------- Title ---------- */
 .post-hero { padding-block: var(--space-5) var(--space-6); }
@@ -63,4 +61,11 @@ body { padding-top: 52px; }                 /* the top bar is always shown here 
 .swipe { display: none; }
 @media (max-width: 640px) {
   .swipe { display: block; margin-top: 10px; font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: .06em; color: var(--accent); }
+}
+
+/* A post's left column only holds a short label, so keep it narrow
+   and give the content the room */
+@media (min-width: 721px) {
+  #main .section-grid { grid-template-columns: 150px minmax(0, 1fr); gap: var(--space-4); }
+  #main .section-grid > div { max-width: 920px; }
 }

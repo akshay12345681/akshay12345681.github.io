@@ -1,37 +1,5 @@
 /* Sections below the hero */
 
-/* ---------- Top bar: slides in once the hero is off screen (js/main.js adds .is-visible) ---------- */
-.topbar {
-  position: fixed; inset: 0 0 auto 0; z-index: 50;
-  background: color-mix(in srgb, var(--bg) 86%, transparent);
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
-  transform: translateY(-100%);
-  visibility: hidden;
-  transition: transform .35s cubic-bezier(.2, .7, .2, 1), visibility 0s linear .35s;
-}
-.topbar.is-visible { transform: none; visibility: visible; transition-delay: 0s; }
-.topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); height: 52px; }
-.topbar-name { font-family: var(--font-display); font-size: 22px; line-height: 1; text-decoration: none; white-space: nowrap; }
-.topbar-name em { color: var(--accent); }
-.topbar-links { display: flex; gap: 20px; }
-.topbar-links a {
-  font-family: var(--font-mono); font-size: 12px;
-  letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
-}
-@media (max-width: 720px) {
-  .topbar-links { gap: 14px; }
-  .topbar-links a { font-size: 11px; }
-}
-@media (max-width: 420px) {
-  .topbar-name { display: none; }
-  .topbar-inner { justify-content: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .topbar { transition: visibility 0s; }
-}
-
 .section {
   border-top: 1px solid var(--line);
   padding-block: var(--space-6);
@@ -39,7 +7,7 @@
 }
 .section-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  grid-template-columns: 180px minmax(0, 1fr);   /* the left column only holds a short label */
   gap: var(--space-4);
 }
 .statement {
@@ -237,7 +205,8 @@
 .case-link::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
 .case:has(.case-link):hover { border-color: var(--fg); transform: translateY(-2px); }
 .case:has(.case-link) .case-top .label::after { content: " · Read →"; color: var(--accent); }
-.case-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.case-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 12px; }
+.case-top .label { white-space: nowrap; }
 .case h3 { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.1; }
 .case p { color: var(--muted); font-size: 15px; }
 .case .case-source {
@@ -275,8 +244,14 @@
   padding-block: 14px; border-top: 1px solid var(--line);
 }
 .contact-list li:last-child { border-bottom: 1px solid var(--line); }
-.contact-list .label { padding-top: 3px; }
-.contact-list a { text-decoration: none; font-size: var(--text-lg); overflow-wrap: anywhere; }
+.contact-list li { align-items: baseline; }
+.contact-list .label { padding-top: 0; }
+.contact-list a { text-decoration: none; overflow-wrap: anywhere; }
+/* Every detail (links and plain text alike) in the site serif, at one size */
+.contact-list li > :not(.label), .contact-value > a {
+  font-family: var(--font-display); font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2;
+}
+.contact-value { font-family: inherit; }
 .contact-list a:hover { color: var(--accent); }
 .contact-value { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; min-width: 0; }
 .copy-btn {
@@ -289,19 +264,12 @@
 .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
 .todo { color: var(--muted); font-style: italic; }
 
-/* ---------- Footer ---------- */
-.footer {
-  border-top: 1px solid var(--line);
-  padding-block: var(--space-3) var(--space-4);
-}
-.footer .container {
-  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-  font-family: var(--font-mono); font-size: var(--text-xs); color: var(--muted);
-}
-
 @media (max-width: 720px) {
   .section-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
-  .facts li, .contact-list li { grid-template-columns: 92px minmax(0, 1fr); }
+  .lead { font-size: 17px; }
+  .contact-list li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .contact-list li > :not(.label), .contact-value > a { font-size: 22px; overflow-wrap: anywhere; }
+  .facts li { grid-template-columns: 92px minmax(0, 1fr); }
   .tool-strip-label { padding-right: var(--space-2); }
   .tool { padding: 14px 20px; font-size: 12px; }
   .tool-logo { width: 22px; height: 22px; }
@@ -356,7 +324,7 @@
 .role-points li { position: relative; padding-left: 18px; font-size: 15px; line-height: 1.55; }
 .role-points li::before {
   content: ""; position: absolute; left: 0; top: .65em;
-  width: 8px; height: 1px; background: var(--accent);
+  width: 8px; height: 2px; background: var(--accent);
 }
 
 /* ---------- Credentials ---------- */
@@ -422,6 +390,7 @@
 
 /* ---------- At a glance: numbers + credentials bar ---------- */
 .proof { border-top: 1px solid var(--line); background: var(--bg); }
+.proof .container { max-width: none; }   /* same left edge as the name and title */
 .proof-inner {
   display: flex; align-items: center; justify-content: space-between; gap: var(--space-3) var(--space-4);
   flex-wrap: wrap; padding-block: 22px;

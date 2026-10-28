@@ -70,8 +70,8 @@
   :root {
     --gutter: 16px;
     --stage-h: 580px;
-    --badge-w: 168px;
-    --anchor-x: 0.72;
+    --badge-w: 156px;
+    --anchor-x: 0.75;   /* badge sits in the right half, clear of the text and menu */
     --space-6: 72px;
   }
 }

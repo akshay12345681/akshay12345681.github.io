@@ -28,7 +28,7 @@
   color: var(--accent);
 }
 .corner-label.has-dot::before {
-  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%;
   background: var(--accent);
 }
 .corner-text {
@@ -74,7 +74,7 @@
 .hero-name {
   position: absolute; z-index: 1;
   left: max(var(--gutter), env(safe-area-inset-left, 0px));
-  bottom: calc(var(--text-hero) * 0.02);  /* high enough that the "y" descender isn't clipped */
+  bottom: calc(var(--text-hero) * 0.14);  /* leaves room for the "y" descender above the stats line */
   font-family: var(--font-display);
   font-weight: 400;
   font-size: var(--text-hero);
@@ -218,7 +218,8 @@
   .corner, .corner-right { max-width: 50%; gap: 8px; }
   .corner-right { text-align: left; align-items: flex-start; }
   .corner-label, .corner-link, .corner-nav a { font-size: 11px; }
-  .corner-nav { gap: 12px; }
+  .corner-label { letter-spacing: .08em; white-space: nowrap; }
+  .corner-nav { gap: 8px 14px; flex-wrap: wrap; }  /* wraps within the left half, beside the badge */
   .hint { display: none; }
 }
 
@@ -226,7 +227,7 @@
 .hero-role {
   position: absolute; z-index: 1;
   left: max(var(--gutter), env(safe-area-inset-left, 0px));
-  bottom: calc(var(--text-hero) * 1.06);  /* keeps the same gap above the name */
+  bottom: calc(var(--text-hero) * 1.18);  /* keeps the same gap above the name */
   display: flex; align-items: center; gap: 10px;
   font-family: var(--font-body); font-weight: 500;
   font-size: clamp(15px, 1.45vw, 19px);

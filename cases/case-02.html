@@ -13,9 +13,23 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
 <link rel="stylesheet" href="../css/tokens.css">
 <link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/chrome.css">
 <link rel="stylesheet" href="../css/case.css">
 </head>
 <body>
+<nav class="topbar is-static" id="topbar" aria-label="Sections">
+  <div class="container topbar-inner">
+    <a class="topbar-name" href="../index.html">Akshay <em>Bhandari</em></a>
+    <div class="topbar-links">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#toolkit">Toolkit</a>
+      <a href="../index.html#projects">Lab</a>
+      <a href="../index.html#cases" aria-current="page">Cases</a>
+      <a href="../index.html#contact">Contact</a>
+      <a href="../cv.html">CV</a>
+    </div>
+  </div>
+</nav>
 
 <!--
   CASE STUDY TEMPLATE
@@ -27,10 +41,6 @@
 
 <header class="case-header">
   <div class="container">
-    <nav class="case-nav" aria-label="Breadcrumb">
-      <a href="../index.html#cases">← Akshay Bhandari</a>
-      <span>Case 02</span>
-    </nav>
 
     <h1 class="case-title">Reconstructing a Windows endpoint compromise</h1>
     <p class="case-summary">A single Windows host raised an alert, and no memory capture was available. Working only from event logs, the registry and file system artefacts, the job is to rebuild exactly what the attacker did, step by step.</p>
@@ -179,5 +189,11 @@
   <a href="case-03.html">Case 03 →</a>
 </footer>
 
+<footer class="footer">
+  <div class="container">
+    <span>© 2026 Akshay Bhandari</span>
+    <span>Hash verified. Chain of custody intact.</span>
+  </div>
+</footer>
 </body>
 </html>

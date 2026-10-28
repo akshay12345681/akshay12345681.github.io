@@ -11,9 +11,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/chrome.css">
 <style>
   /* CV page: one column, readable, prints cleanly */
-  .cv { max-width: 860px; margin: 0 auto; padding-block: var(--space-4) var(--space-6); }
+  .cv { padding-block: var(--space-4) var(--space-6); }   /* same width and left edge as the top bar */
+  .cv > * { max-width: 1000px; }
   .cv-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: .1em; text-transform: uppercase; }
   .cv-nav a { text-decoration: none; color: var(--muted); }
   .cv-nav a:hover { color: var(--fg); }
@@ -21,11 +23,11 @@
   .cv-name { font-family: var(--font-display); font-weight: 400; font-size: clamp(44px, 7vw, 76px); line-height: 1; letter-spacing: -.01em; }
   .cv-name em { color: var(--accent); }
   .cv-title { margin-top: 10px; font-weight: 500; font-size: 18px; }
-  .cv-contact { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+  .cv-contact { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px 22px; font-family: var(--font-display); font-size: 21px; line-height: 1.25; color: var(--muted); }  /* same serif as the homepage contact details */
   .cv-contact a { color: var(--fg); text-decoration: none; }
   .cv-contact a:hover { color: var(--accent); }
-  .cv-section { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: var(--space-3); padding-block: var(--space-3); border-bottom: 1px solid var(--line); }
-  .cv-section > h2 { font-family: var(--font-mono); font-weight: 400; font-size: var(--text-2xs); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); padding-top: 6px; }
+  .cv-section { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: var(--space-3); padding-block: var(--space-3); border-bottom: 1px solid var(--line); }
+  .cv-section > h2 { font-family: var(--font-mono); font-weight: 400; font-size: var(--text-2xs); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-top: 6px; }
   .cv-section p, .cv-section li { font-size: 15.5px; line-height: 1.6; }
   .cv-role + .cv-role { margin-top: var(--space-3); }
   .cv-role-head { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 16px; flex-wrap: wrap; }
@@ -34,7 +36,7 @@
   .cv-org { color: var(--muted); font-size: 15px; }
   .cv-list { margin-top: 10px; padding: 0; list-style: none; display: grid; gap: 7px; }
   .cv-list li { position: relative; padding-left: 18px; }
-  .cv-list li::before { content: ""; position: absolute; left: 0; top: .78em; width: 8px; height: 1px; background: var(--accent); }
+  .cv-list li::before { content: ""; position: absolute; left: 0; top: .72em; width: 8px; height: 2px; background: var(--accent); }
   .cv-grid { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 8px 16px; }
   .cv-grid dt { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--muted); padding-top: 2px; }
   .cv-grid dd { margin: 0; font-size: 15px; }
@@ -43,7 +45,7 @@
   .cv-certs li span:last-child { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--muted); }
   .cv-certs strong { font-weight: 500; color: var(--accent); }
   @media (max-width: 720px) {
-    .cv-section { grid-template-columns: 1fr; gap: 8px; }
+    .cv-section { grid-template-columns: minmax(0, 1fr); gap: 8px; }
     .cv-grid { grid-template-columns: 1fr; gap: 2px; }
     .cv-grid dd { margin-bottom: 8px; }
   }
@@ -55,12 +57,21 @@
 </style>
 </head>
 <body>
-<div class="container cv">
-  <nav class="cv-nav" aria-label="Back">
-    <a href="index.html">← Akshay Bhandari</a>
-    <span>Curriculum vitae</span>
-  </nav>
+<nav class="topbar is-static" id="topbar" aria-label="Sections">
+  <div class="container topbar-inner">
+    <a class="topbar-name" href="index.html">Akshay <em>Bhandari</em></a>
+    <div class="topbar-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#toolkit">Toolkit</a>
+      <a href="index.html#projects">Lab</a>
+      <a href="index.html#cases">Cases</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="cv.html" aria-current="page">CV</a>
+    </div>
+  </div>
+</nav>
 
+<div class="container cv">
   <header class="cv-head">
     <h1 class="cv-name">Akshay <em>Bhandari</em></h1>
     <p class="cv-title">Director · Digital Forensics &amp; Incident Response · Cyber Risk Consulting</p>
@@ -153,5 +164,11 @@
     <a class="btn" href="index.html">Back to portfolio</a>
   </div>
 </div>
+<footer class="footer">
+  <div class="container">
+    <span>© 2026 Akshay Bhandari</span>
+    <span>Hash verified. Chain of custody intact.</span>
+  </div>
+</footer>
 </body>
 </html>

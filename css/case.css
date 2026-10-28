@@ -24,7 +24,7 @@
   margin-top: var(--space-3);
   display: inline-block;
   font-family: var(--font-mono); font-size: var(--text-2xs);
-  padding: 4px 10px; border-radius: 99px;
+  padding: 8px 12px; border-radius: 8px; line-height: 1.5;
   color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
@@ -40,7 +40,7 @@
 
 /* Body: section label on the left, content on the right */
 .case-body { padding-block: var(--space-5) var(--space-6); display: grid; gap: var(--space-5); }
-.case-section { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); gap: var(--space-4); }
+.case-section { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: var(--space-4); }
 .case-section h2 {
   font-family: var(--font-mono); font-weight: 400; font-size: var(--text-2xs);
   letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
@@ -88,5 +88,5 @@ td.hash { font-family: var(--font-mono); font-size: 12px; word-break: break-all;
 .case-next a { text-decoration: none; }
 
 @media (max-width: 720px) {
-  .case-section { grid-template-columns: 1fr; gap: var(--space-1); }
+  .case-section { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); }
 }
