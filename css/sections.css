@@ -19,7 +19,7 @@
   text-wrap: balance;
 }
 .statement em { color: var(--accent); }
-.lead { font-size: var(--text-lg); color: var(--muted); max-width: 60ch; margin-top: var(--space-3); }
+.lead { font-size: var(--text-lg); color: var(--body); max-width: 60ch; margin-top: var(--space-3); }
 .lead + .lead { margin-top: var(--space-2); }
 
 /* ---------- Tool strip (between hero and About) ---------- */
@@ -144,7 +144,7 @@
 .deck-num { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: .1em; color: var(--muted); }
 .deck-card.is-active .deck-num { color: var(--accent); }
 .deck-card h3 { font-family: var(--font-display); font-weight: 400; font-size: 34px; line-height: 1.05; letter-spacing: -.01em; }
-.deck-desc { font-size: 14.5px; line-height: 1.55; color: var(--muted); }
+.deck-desc { font-size: 14.5px; line-height: 1.55; color: var(--body); }
 
 .kit-tools { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; padding-top: 6px; }
 .kit-tools li {
@@ -208,7 +208,7 @@
 .case-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 12px; }
 .case-top .label { white-space: nowrap; }
 .case h3 { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.1; }
-.case p { color: var(--muted); font-size: 15px; }
+.case p { color: var(--body); font-size: 15px; }
 .case .case-source {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   font-family: var(--font-mono); font-size: var(--text-2xs);
@@ -456,7 +456,7 @@
 .feature-link::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
 .feature-text { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .feature h3 { font-family: var(--font-display); font-weight: 400; font-size: clamp(28px, 3vw, 36px); line-height: 1.08; }
-.feature-text > p { color: var(--muted); font-size: 15.5px; }
+.feature-text > p { color: var(--body); font-size: 15.5px; }
 .feature-stats { display: flex; gap: 28px; margin: 0; }
 .feature-stats div { display: flex; flex-direction: column; gap: 2px; }
 .feature-stats dd { margin: 0; font-family: var(--font-display); font-size: 40px; line-height: 1; color: var(--accent); }
@@ -485,3 +485,6 @@
 @media (max-width: 900px) {
   .feature { grid-template-columns: 1fr; padding: var(--space-3); gap: var(--space-3); }
 }
+
+/* Links inside paragraphs */
+.lead a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }

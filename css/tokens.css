@@ -49,7 +49,8 @@
   --bg: #f6f5f2;
   --surface: #ffffff;
   --fg: #171615;
-  --muted: #6f6b66;
+  --muted: #6f6b66;         /* small labels and captions */
+  --body: #3a3632;          /* paragraphs: darker than labels, so text reads crisply */
   --line: #e6e3dd;
   --accent: #c8322b;        /* evidence-bag red */
   --strap: #c8322b;         /* red lanyard, like evidence tape */
